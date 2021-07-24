@@ -2,12 +2,9 @@
   <header>
     <div class="topPage">
       <h1>TopPage</h1>
-      <people-cell class="peopleCell"/>
-      <people-cell class="peopleCell"/>
-      <people-cell class="peopleCell"/>
-      <people-cell class="peopleCell"/>
-      <people-cell class="peopleCell"/>
-      <people-cell class="peopleCell"/>
+      <div v-for="image in images" :key="image.name">
+        <people-cell class="peopleCell"><img :src="image.fotoURL"></people-cell>
+      </div>
     </div>
   </header>
 </template>
@@ -18,6 +15,11 @@ export default {
   name: 'TopPage',
   components: {
     PeopleCell
+  },
+  computed: {
+    images () {
+      return this.$store.state.images
+    }
   }
 }
 </script>

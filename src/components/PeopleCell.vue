@@ -1,6 +1,6 @@
 <template>
   <div class="PeopleCellParent">
-    <div class="PeopleCellChild"><img src="../assets/test.jpg"></div>
+    <div class="PeopleCellChild"><slot></slot></div>
     <div class="PeopleCellChild profile">2</div>
     <div class="PeopleCellChild">3</div>
   </div>

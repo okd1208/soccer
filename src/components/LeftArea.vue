@@ -26,7 +26,7 @@ export default {
 
 <style>
 .LeftArea {
-  width: 300px;
+  /* width: 300px; */
   margin: 30px 30px 0px 100px;
   background-color: rgb(224, 219, 219);
 }
