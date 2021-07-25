@@ -2,23 +2,21 @@
   <header>
     <div class="topPage">
       <h1>TopPage</h1>
-      <div v-for="image in images" :key="image.name">
-        <people-cell class="peopleCell"><img :src="image.fotoURL"></people-cell>
-      </div>
+      <player-cell v-for="Player in Players" :key="Player.name" :PlayerInfo="Player" class="PlayerCell"></player-cell>
     </div>
   </header>
 </template>
 
 <script>
-import PeopleCell from './PeopleCell.vue'
+import PlayerCell from './PlayerCell.vue'
 export default {
   name: 'TopPage',
   components: {
-    PeopleCell
+    PlayerCell
   },
   computed: {
-    images () {
-      return this.$store.state.images
+    Players () {
+      return this.$store.state.Players
     }
   }
 }
@@ -29,7 +27,7 @@ export default {
   height: 1000px;
   margin-right: 160px;
 }
-.peopleCell {
+.PlayerCell {
   margin: 32px 0 0 64px;
 }
 </style>

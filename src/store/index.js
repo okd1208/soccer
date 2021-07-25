@@ -11,15 +11,15 @@ export default new Vuex.Store({
   // getters,
   // mutations,
   state: {
-    images: [
-      {name: 'honda', fotoURL: require('../assets/honda-keisuke.jpeg')},
-      {name: 'test', fotoURL: require('../assets/test.jpg')},
-      {name: 'honda1', fotoURL: require('../assets/honda-keisuke.jpeg')},
-      {name: 'test1', fotoURL: require('../assets/test.jpg')},
-      {name: 'honda2', fotoURL: require('../assets/honda-keisuke.jpeg')},
-      {name: 'test2', fotoURL: require('../assets/test.jpg')},
-      {name: 'honda3', fotoURL: require('../assets/honda-keisuke.jpeg')},
-      {name: 'test3', fotoURL: require('../assets/test.jpg')}
+    Players: [
+      {name: 'honda', fotoURL: require('../assets/honda-keisuke.jpeg'), AbilityScore: [60, 80, 20, 50, 90]},
+      {name: 'test', fotoURL: require('../assets/test.jpg'), AbilityScore: [60, 30, 60, 50, 90]},
+      {name: 'honda1', fotoURL: require('../assets/honda-keisuke.jpeg'), AbilityScore: [10, 10, 20, 50, 90]},
+      {name: 'test1', fotoURL: require('../assets/test.jpg'), AbilityScore: [10, 40, 20, 50, 90]},
+      {name: 'honda2', fotoURL: require('../assets/honda-keisuke.jpeg'), AbilityScore: [70, 10, 20, 50, 90]},
+      {name: 'test2', fotoURL: require('../assets/test.jpg'), AbilityScore: [90, 10, 20, 50, 90]},
+      {name: 'honda3', fotoURL: require('../assets/honda-keisuke.jpeg'), AbilityScore: [10, 10, 20, 50, 90]},
+      {name: 'test3', fotoURL: require('../assets/test.jpg'), AbilityScore: [100, 50, 20, 50, 90]}
     ]
   }
 })
