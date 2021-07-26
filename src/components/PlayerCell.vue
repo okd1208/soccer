@@ -1,13 +1,25 @@
 <template>
-  <div class="PlayerCellParent">
-    <div class="PlayerCellChild"><img :src="PlayerInfo.fotoURL"></div>
-    <div class="PlayerCellChild profile">2</div>
-    <div class="PlayerCellChild"><chart height="160px" :chartdata="chartData" :options="chartOptions" /></div>
+  <div>
+    <div class="PlayerCellParent">
+      <div class="PlayerCellChild"><img :src="PlayerInfo.fotoURL"></div>
+      <div class="PlayerCellChild profile" v-b-toggle=PlayerName>
+        <h5>{{ PlayerInfo.name }}</h5>
+        <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
+        <!-- <b-button class="moreBtn" v-b-toggle=PlayerName>詳細をみる</b-button> -->
+      </div>
+      <div class="PlayerCellChild"><chart height="160px" :chartdata="chartData" :options="chartOptions" /></div>
+    </div>
+    <b-collapse :id="PlayerName">
+      <b-card>
+        <detail-player-cell/>
+      </b-card>
+    </b-collapse>
   </div>
 </template>
 
 <script>
 import Chart from './RaderChart.vue'
+import DetailPlayerCell from './DetailPlayerCell.vue'
 export default {
   name: 'App',
   props: {
@@ -18,7 +30,7 @@ export default {
   },
   data: function () {
     return {
-      test: 'dfsafasd',
+      PlayerName: this.PlayerInfo.name,
       chartData: {
         labels: ['ディフェンス', 'ドリブル', 'アシスト', 'シュート', '体力'],
         datasets: [
@@ -36,7 +48,8 @@ export default {
     }
   },
   components: {
-    Chart
+    Chart,
+    DetailPlayerCell
   },
   methods: {
   }
@@ -57,10 +70,21 @@ export default {
 .profile{
   flex-grow: 1;
   background-color: rgb(233, 240, 233);
+  text-align: left;
+  padding: 16px 0 0 32px;
 }
 
 .PlayerCellChild > img {
   width: 160px;
   height: 160px;
+}
+
+.PlayerProfile {
+  font-size: 12px;
+}
+
+.moreBtn {
+  float: right;
+  margin: 0 16px 16px 0;
 }
 </style>
