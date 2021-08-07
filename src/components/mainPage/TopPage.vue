@@ -8,16 +8,18 @@
 </template>
 
 <script>
-import PlayerCell from './PlayerCell.vue'
+import PlayerCell from '../PlayerCell.vue'
+import Mixin from '../../mixin'
 export default {
   name: 'TopPage',
+  mixins: [Mixin],
   components: {
     PlayerCell
   },
   computed: {
-    Players () {
-      return this.$store.state.Players
-    }
+    // Players () {
+    //   return this.$store.state.Players
+    // }
   }
 }
 </script>

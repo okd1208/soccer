@@ -3,15 +3,15 @@
     <div class="PlayerCellParent">
       <div class="PlayerCellChild"><img :src="PlayerInfo.fotoURL"></div>
       <div class="PlayerCellChild profile" v-b-toggle=PlayerName>
-        <h5>{{ PlayerInfo.name }}</h5>
+        <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
         <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
         <!-- <b-button class="moreBtn" v-b-toggle=PlayerName>詳細をみる</b-button> -->
       </div>
-      <div class="PlayerCellChild"><chart height="160px" :chartdata="chartData" :options="chartOptions" /></div>
+      <div class="PlayerCellChild"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
     </div>
     <b-collapse :id="PlayerName">
       <b-card>
-        <detail-player-cell/>
+        <detail-player-cell :PlayerInfo="PlayerInfo"/>
       </b-card>
     </b-collapse>
   </div>
@@ -21,10 +21,9 @@
 import Chart from './RaderChart.vue'
 import DetailPlayerCell from './DetailPlayerCell.vue'
 export default {
-  name: 'App',
   props: {
     'PlayerInfo': {
-      type: Array,
+      type: Object,
       default: ''
     }
   },
@@ -52,6 +51,24 @@ export default {
     DetailPlayerCell
   },
   methods: {
+    getage (birthday) {
+      var today = new Date()
+      var NowYear = today.getFullYear()
+      var NowMonth = today.getMonth() + 1
+      var NowDay = today.getDate()
+      var datearray = birthday.split('-')
+      var Byear = Number.parseInt(datearray[0], 10)
+      var Bmonth = Number.parseInt(datearray[1], 10)
+      var Bday = Number.parseInt(datearray[2], 10)
+      var age = NowYear - Byear - 1
+      if (NowMonth >= Bmonth) {
+        if (NowMonth === Bmonth && NowDay > Bday) {
+          return age
+        }
+        age += 1
+      }
+      return age
+    }
   }
 }
 </script>
