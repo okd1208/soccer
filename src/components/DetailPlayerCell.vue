@@ -1,7 +1,7 @@
 <template>
   <div class="parent">
     <div class="child">
-      <p>ゴール数: {{ TotalScore(PlayerInfo.goal) }}</p>
+      <p>ゴール数: {{ TotalScore(PlayerInfo.LeagueGC,PlayerInfo.CupGC,PlayerInfo.ClGC) }}</p>
       <table class="table">
         <thead>
           <tr>
@@ -12,15 +12,15 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{ PickupScore(PlayerInfo.goal, 0) }}</td>
-            <td>{{ PickupScore(PlayerInfo.goal, 1) }}</td>
-            <td>{{ PickupScore(PlayerInfo.goal, 2) }}</td>
+            <td>{{ PlayerInfo.LeagueGC }}</td>
+            <td>{{ PlayerInfo.CupGC }}</td>
+            <td>{{ PlayerInfo.ClGC }}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="child">
-      <p>アシスト数: {{ TotalScore(PlayerInfo.assist) }}</p>
+      <p>アシスト数: {{ TotalScore(PlayerInfo.LeagueAC,PlayerInfo.CupAC,PlayerInfo.ClAC) }}</p>
       <table class="table">
         <thead>
           <tr>
@@ -31,9 +31,9 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{ PickupScore(PlayerInfo.assist, 0) }}</td>
-            <td>{{ PickupScore(PlayerInfo.assist, 1) }}</td>
-            <td>{{ PickupScore(PlayerInfo.assist, 2) }}</td>
+            <td>{{ PlayerInfo.LeagueAC }}</td>
+            <td>{{ PlayerInfo.CupAC }}</td>
+            <td>{{ PlayerInfo.ClAC }}</td>
           </tr>
         </tbody>
       </table>

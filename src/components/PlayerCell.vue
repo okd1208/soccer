@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="PlayerCellParent">
-      <div class="PlayerCellChild"><img :src="PlayerInfo.fotoURL"></div>
+      <div class="PlayerCellChild">
+        <img class="TeamIcon" :id="PlayerInfo.name" :src="getTeamIcon(PlayerInfo.BelongTeam, PlayerInfo.name)">
+        <img class="PlayerImg" :src="PlayerInfo.fotoURL">
+      </div>
       <div class="PlayerCellChild profile" v-b-toggle=PlayerName>
         <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
         <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
@@ -18,6 +21,7 @@
 </template>
 
 <script>
+import Mixin from '../mixin'
 import Chart from './RaderChart.vue'
 import DetailPlayerCell from './DetailPlayerCell.vue'
 export default {
@@ -27,6 +31,7 @@ export default {
       default: ''
     }
   },
+  mixins: [Mixin],
   data: function () {
     return {
       PlayerName: this.PlayerInfo.name,
@@ -52,6 +57,9 @@ export default {
   },
   methods: {
     getage (birthday) {
+      if (birthday === null) {
+        return 0
+      }
       var today = new Date()
       var NowYear = today.getFullYear()
       var NowMonth = today.getMonth() + 1
@@ -62,7 +70,7 @@ export default {
       var Bday = Number.parseInt(datearray[2], 10)
       var age = NowYear - Byear - 1
       if (NowMonth >= Bmonth) {
-        if (NowMonth === Bmonth && NowDay > Bday) {
+        if (NowMonth === Bmonth && NowDay < Bday) {
           return age
         }
         age += 1
@@ -91,7 +99,7 @@ export default {
   padding: 16px 0 0 32px;
 }
 
-.PlayerCellChild > img {
+.PlayerImg {
   width: 160px;
   height: 160px;
 }
@@ -103,5 +111,13 @@ export default {
 .moreBtn {
   float: right;
   margin: 0 16px 16px 0;
+}
+
+.TeamIcon {
+  height: 40px;
+  position: absolute;
+  margin-top: 120px;
+  margin-left: 120px;
+  z-index: 1;
 }
 </style>

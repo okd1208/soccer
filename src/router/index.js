@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import TopPage from '@/components/mainPage/TopPage'
 import RankingPage from '@/components/mainPage/RankingPage'
 import PlayerEdit from '@/components/admin/PlayerEdit'
+import TeamEdit from '@/components/admin/TeamEdit'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/admin',
       name: 'PlayerEdit',
       component: PlayerEdit
+    },
+    {
+      path: '/admin/TeamEdit',
+      name: 'TeamEdit',
+      component: TeamEdit
     }
   ]
 })
