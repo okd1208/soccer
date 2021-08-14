@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="EditField">
+    <div class="TeamEditField">
       <team-cell v-for="Team in Teams" :key="Team.name" :TeamInfo="Team" class="TeamCell"></team-cell>
       <h3>チーム名</h3>
       <div><label class="NewPlayerLabel">名前</label><input v-model="TeamName" type="text"></div>
@@ -37,13 +37,14 @@ export default {
 </script>
 
 <style scoped>
-.EditField {
+.TeamEditField {
   margin-top: 62px;
   background-color: rgb(228, 250, 228);
   padding: 32px 0px;
   margin-right: 160px;
 }
 .MenberContainer div {
+  width: 160px;
   display: inline-block;
   margin: 12px 32px;
 }

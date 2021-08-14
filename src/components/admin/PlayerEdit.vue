@@ -4,7 +4,7 @@
       <li v-for="Player in Players" :key="Player.id">{{ Player }}
       </li>
     </ul> -->
-    <player-cell v-for="Player in Players" :key="Player.name" :PlayerInfo="Player" class="PlayerCell"></player-cell>
+    <player-cell v-for="(Player,key) in Players" :key="key" :ItemId="key" :PlayerInfo="Player" :IsEdit=true class="PlayerCell"></player-cell>
     <div class="EditField">
       <h3>選手情報登録</h3>
       <div><label>名前</label><input @change="UpdatePreviewCell()" v-model="PlayerName" type="text"></div>

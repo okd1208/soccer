@@ -22,12 +22,16 @@ export default {
       height: null,
       position: null,
       BelongTeam: null,
-      PreviewCell: {name: 'name', profile: 'profile', birthday: null, fotoURL: null, LeagueGC: null, CupGC: null, ClGC: null, LeagueAC: null, CupAC: null, ClAC: null, AbilityScore: [50, 50, 50, 50, 50], uniform: null, from: null, height: null, position: null, BelongTeam: null},
+      PreviewCell: {name: 'name', profile: 'profile', birthday: '2020-01-01', fotoURL: null, LeagueGC: null, CupGC: null, ClGC: null, LeagueAC: null, CupAC: null, ClAC: null, AbilityScore: [50, 50, 50, 50, 50], uniform: null, from: null, height: null, position: null, BelongTeam: null},
       // Teams
       TeamsRef: null,
       Teams: null,
       TeamName: null,
-      TeamMenber: []
+      TeamMenber: [],
+      TargetInfo: {
+        type: Object,
+        default: this.PreviewCell
+      }
     }
   },
   methods: {
@@ -53,16 +57,13 @@ export default {
         fotoURL: document.getElementById('image').src,
         AbilityScore: PreviewInfo.AbilityScore
       })
-      console.log('goal')
     },
     addTeamsRef () {
-      console.log('start')
       this.TeamsRef.add({
         TeamName: this.TeamName,
         Menber: this.TeamMenber,
         fotoURL: document.getElementById('image').src
       })
-      console.log('goal')
     },
     // 新規追加
     UpdatePreviewCell () {
@@ -107,12 +108,21 @@ export default {
         return
       }
       this.ref = firebase.storage().ref().child('images/Team/' + teamname)
-      console.log(this.ref)
-      console.log('this.ref')
       this.ref.getDownloadURL().then((url) => {
-        console.log(url)
         document.getElementById(imgid).src = url
       })
+    },
+    deleteItem (ItemId) {
+      var result = window.confirm(this.Players[ItemId].name + 'を削除しますか？')
+      if (result) {
+        this.PlayersRef.doc(ItemId).delete()
+      }
+    },
+    async SetEditTarget (key) {
+      console.log(key)
+      const info = await this.PlayersRef.doc(key).get()
+      console.log(info.data())
+      this.TargetInfo = info.data()
     }
   },
   created () {
@@ -124,8 +134,8 @@ export default {
         obj[doc.id] = doc.data()
       })
       this.Players = obj
-      var key = Object.keys(obj)
-      console.log(key)
+      // var key = Object.keys(obj)
+      // console.log(key)
     })
     this.TeamsRef = this.db.collection('Team')
     this.TeamsRef.onSnapshot(querySnapshot => {
@@ -134,8 +144,8 @@ export default {
         obj[doc.id] = doc.data()
       })
       this.Teams = obj
-      var key = Object.keys(obj)
-      console.log(key)
+      // var key = Object.keys(obj)
+      // console.log(key)
     })
   },
   computed: {

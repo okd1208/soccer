@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="PlayerCellParent">
-      <div class="PlayerCellChild"><img :src="TeamInfo.fotoURL"></div>
-      <div class="PlayerCellChild profile">
+    <div class="TeamCellParent">
+      <div class="TeamCellChild"><img :src="TeamInfo.fotoURL"></div>
+      <div class="TeamCellChild profile">
         <h5>{{ TeamInfo.TeamName }}</h5>
-        <p class="PlayerProfile">{{ TeamInfo.TeamName }}</p>
+        <p class="TeamProfile">{{ TeamInfo.TeamName }}</p>
       </div>
     </div>
   </div>
@@ -30,11 +30,11 @@ export default {
 </script>
 
 <style>
-.PlayerCellParent {
+.TeamCellParent {
   display: flex;
 }
 
-.PlayerCellChild {
+.TeamCellChild {
   width: 160px;
   /* background-color: rgb(172, 189, 172); */
   height: 160px;
@@ -47,12 +47,12 @@ export default {
   padding: 16px 0 0 32px;
 }
 
-.PlayerCellChild > img {
+.TeamCellChild > img {
   width: 160px;
   height: 160px;
 }
 
-.PlayerProfile {
+.TeamProfile {
   font-size: 12px;
 }
 

@@ -17,6 +17,10 @@
         <detail-player-cell :PlayerInfo="PlayerInfo"/>
       </b-card>
     </b-collapse>
+    <div v-if="IsEdit">
+      <button class="EditButton"><router-link :to="{ name: 'EditPlayerInfo', params: { id: ItemId }}" >編集</router-link ></button>
+      <button @click="deleteItem(ItemId)" class="DeleteButton">削除</button>
+    </div>
   </div>
 </template>
 
@@ -29,7 +33,9 @@ export default {
     'PlayerInfo': {
       type: Object,
       default: ''
-    }
+    },
+    IsEdit: Boolean,
+    ItemId: String
   },
   mixins: [Mixin],
   data: function () {
@@ -119,5 +125,17 @@ export default {
   margin-top: 120px;
   margin-left: 120px;
   z-index: 1;
+}
+
+.EditButton, .DeleteButton {
+  width: 40%;
+  height: 32px;
+  color: white;
+  background-color: rgb(104, 200, 207);
+  border: 0px;
+  margin: 6px;
+}
+.DeleteButton {
+  background-color: rgb(207, 107, 104);
 }
 </style>
