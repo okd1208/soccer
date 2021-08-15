@@ -53,16 +53,13 @@ export default {
         fotoURL: document.getElementById('image').src,
         AbilityScore: PreviewInfo.AbilityScore
       })
-      console.log('goal')
     },
     addTeamsRef () {
-      console.log('start')
       this.TeamsRef.add({
         TeamName: this.TeamName,
         Menber: this.TeamMenber,
         fotoURL: document.getElementById('image').src
       })
-      console.log('goal')
     },
     // 新規追加
     UpdatePreviewCell () {
@@ -106,13 +103,16 @@ export default {
       if (!teamname) {
         return
       }
-      this.ref = firebase.storage().ref().child('images/Team/' + teamname)
-      console.log(this.ref)
-      console.log('this.ref')
-      this.ref.getDownloadURL().then((url) => {
+      firebase.storage().ref().child('images/Team/' + teamname).getDownloadURL().then((url) => {
         console.log(url)
         document.getElementById(imgid).src = url
       })
+    },
+    deleteItem (ItemId) {
+      var result = window.confirm(this.Players[ItemId].name + 'を削除しますか？')
+      if (result) {
+        this.PlayersRef.doc(ItemId).delete()
+      }
     }
   },
   created () {
@@ -124,8 +124,8 @@ export default {
         obj[doc.id] = doc.data()
       })
       this.Players = obj
-      var key = Object.keys(obj)
-      console.log(key)
+      // var key = Object.keys(obj)
+      // console.log(key)
     })
     this.TeamsRef = this.db.collection('Team')
     this.TeamsRef.onSnapshot(querySnapshot => {
@@ -134,8 +134,8 @@ export default {
         obj[doc.id] = doc.data()
       })
       this.Teams = obj
-      var key = Object.keys(obj)
-      console.log(key)
+      // var key = Object.keys(obj)
+      // console.log(key)
     })
   },
   computed: {
