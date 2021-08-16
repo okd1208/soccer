@@ -19,7 +19,7 @@
         </b-card>
       </b-collapse>
       <div v-if="IsEdit">
-        <button @click="setTargetToggle(), $emit('lookonToggle')" class="EditButton">編集</button>
+        <button @click="setTargetToggle(), $emit('lookonToggle', PlayerInfo, ItemId)" class="EditButton"><span v-if="!targetItem">編集</span><span v-if="targetItem">編集をやめる</span></button>
         <button @click="deleteItem(ItemId)" class="DeleteButton">削除</button>
       </div>
     </div>
@@ -57,8 +57,7 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false
-      },
-      targetItem: false
+      }
     }
   },
   components: {
@@ -94,7 +93,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .PlayerCellParent {
   display: flex;
 }
@@ -132,15 +131,6 @@ export default {
   margin-top: 120px;
   margin-left: 120px;
   z-index: 1;
-}
-
-.EditButton, .DeleteButton {
-  width: 40%;
-  height: 32px;
-  color: white;
-  background-color: rgb(104, 200, 207);
-  border: 0px;
-  margin: 6px;
 }
 
 .DeleteButton {

@@ -2,7 +2,8 @@
   <div>
     <player-cell @lookonToggle="lookonToggle" v-for="(Player,key) in Players" :key="key" :isLookon="isLookon" :ItemId="key" :PlayerInfo="Player" :IsEdit=true class="PlayerCell"></player-cell>
     <div class="EditField">
-      <h3>選手情報登録</h3>
+      <h3 v-if="!isLookon">新規登録</h3>
+      <h3 v-if="isLookon">編集</h3>
       <div><label>名前</label><input @change="UpdatePreviewCell()" v-model="PlayerName" type="text"></div>
       <div><label>プロフィール</label><input @change="UpdatePreviewCell()" v-model="profile" type="text"></div>
       <div><label>生年月日</label><input @change="UpdatePreviewCell()" v-model="birthday" type="date"></div>
@@ -35,7 +36,10 @@
       </div>
       <span><img id="image" width='100px' @change="UpdatePreviewCell()" src=""></span>
       <input @change="fotoUp('PlayerInput')" id="PlayerInput" type="file" value="upload">
-      <button @click="addPlayersRef(PreviewCell)">addPlayersRef</button>
+      <div>
+      <button class="simpleBtn" v-if="!isLookon" @click="addPlayersRef(PreviewCell)">新規登録</button>
+      <button class="simpleBtn" v-if="isLookon" @click="UpdatePlayersRef(PreviewCell)">保存</button>
+      </div>
     </div>
     <player-cell :PlayerInfo="PreviewCell" class="PlayerCell"></player-cell>
   </div>
@@ -43,7 +47,7 @@
 
 <script>
 import Mixin from '../../mixin'
-import PlayerCell from '../PlayerCell.vue'
+import PlayerCell from '@/components/PlayerCell.vue'
 export default {
   mixins: [Mixin],
   components: {
@@ -56,7 +60,28 @@ export default {
     }
   },
   methods: {
-    lookonToggle () {
+    lookonToggle (Player, key) {
+      if (!this.isLookon) {
+        this.PreviewCell.key = key
+        this.PlayerName = Player.name
+        this.birthday = Player.birthday
+        this.profile = Player.profile
+        this.LeagueGC = Player.LeagueGC
+        this.CupGC = Player.CupGC
+        this.ClGC = Player.ClGC
+        this.LeagueAC = Player.LeagueAC
+        this.CupAC = Player.CupAC
+        this.ClAC = Player.ClAC
+        this.uniform = Player.uniform
+        this.from = Player.from
+        this.height = Player.height
+        this.position = Player.position
+        this.BelongTeam = Player.BelongTeam
+        document.getElementById('image').src = Player.fotoURL
+        this.UpdatePreviewCell()
+      } else {
+        this.clearFeald()
+      }
       this.isLookon = !this.isLookon
     }
   }

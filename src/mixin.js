@@ -4,7 +4,6 @@ export default {
     return {
       db: null,
       ref: null,
-      fotoURL: null,
       // Player
       PlayersRef: null,
       Players: null,
@@ -22,12 +21,13 @@ export default {
       height: null,
       position: null,
       BelongTeam: null,
-      PreviewCell: {name: 'name', profile: 'profile', birthday: null, fotoURL: null, LeagueGC: null, CupGC: null, ClGC: null, LeagueAC: null, CupAC: null, ClAC: null, AbilityScore: [50, 50, 50, 50, 50], uniform: null, from: null, height: null, position: null, BelongTeam: null},
+      PreviewCell: {name: 'name', profile: 'profile', birthday: null, fotoURL: null, LeagueGC: null, CupGC: null, ClGC: null, LeagueAC: null, CupAC: null, ClAC: null, AbilityScore: [50, 50, 50, 50, 50], uniform: null, from: null, height: null, position: null, BelongTeam: null, key: null},
       // Teams
       TeamsRef: null,
       Teams: null,
       TeamName: null,
-      TeamMenber: []
+      TeamMenber: [],
+      targetItem: false
     }
   },
   methods: {
@@ -53,6 +53,28 @@ export default {
         fotoURL: document.getElementById('image').src,
         AbilityScore: PreviewInfo.AbilityScore
       })
+      this.clearFeald()
+    },
+    async UpdatePlayersRef (PreviewInfo) {
+      await this.PlayersRef.doc(this.PreviewCell.key).update({
+        name: PreviewInfo.name,
+        profile: PreviewInfo.profile,
+        LeagueGC: Number(PreviewInfo.LeagueGC),
+        CupGC: Number(PreviewInfo.CupGC),
+        ClGC: Number(PreviewInfo.ClGC),
+        LeagueAC: Number(PreviewInfo.LeagueAC),
+        CupAC: Number(PreviewInfo.CupAC),
+        ClAC: Number(PreviewInfo.ClAC),
+        uniform: Number(PreviewInfo.uniform),
+        from: PreviewInfo.from,
+        height: Number(PreviewInfo.height),
+        birthday: PreviewInfo.birthday,
+        position: PreviewInfo.position,
+        BelongTeam: PreviewInfo.BelongTeam,
+        fotoURL: document.getElementById('image').src,
+        AbilityScore: PreviewInfo.AbilityScore
+      })
+      this.$router.go({path: this.$router.currentRoute.path, force: false})
     },
     addTeamsRef () {
       this.TeamsRef.add({
@@ -107,11 +129,44 @@ export default {
         document.getElementById(imgid).src = url
       })
     },
-    deleteItem (ItemId) {
+    async deleteItem (ItemId) {
       var result = window.confirm(this.Players[ItemId].name + 'を削除しますか？')
       if (result) {
-        this.PlayersRef.doc(ItemId).delete()
+        await this.PlayersRef.doc(ItemId).delete()
       }
+      if (result && this.targetItem) {
+        this.$router.go({path: this.$router.currentRoute.path, force: false})
+      }
+    },
+    clearFeald () {
+      this.PlayerName = null
+      this.birthday = null
+      this.profile = null
+      this.LeagueGC = null
+      this.CupGC = null
+      this.ClGC = null
+      this.LeagueAC = null
+      this.CupAC = null
+      this.ClAC = null
+      this.uniform = null
+      this.from = null
+      this.height = null
+      this.position = null
+      this.BelongTeam = null
+      document.getElementById('image').src = null
+      this.UpdatePreviewCell()
+      this.moveTop()
+    },
+    moveTop () {
+      const duration = 200 // 移動速度（1秒で終了）
+      const interval = 25 // 0.025秒ごとに移動
+      const step = -window.scrollY / Math.ceil(duration / interval) // 1回に移動する距離
+      const timer = setInterval(() => {
+        window.scrollBy(0, step) // スクロール位置を移動
+        if (window.scrollY <= 0) {
+          clearInterval(timer)
+        }
+      }, interval)
     }
   },
   created () {
