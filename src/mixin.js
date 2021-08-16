@@ -104,7 +104,6 @@ export default {
         return
       }
       firebase.storage().ref().child('images/Team/' + teamname).getDownloadURL().then((url) => {
-        console.log(url)
         document.getElementById(imgid).src = url
       })
     },

@@ -1,27 +1,29 @@
 <template>
-  <div>
-    <div class="PlayerCellParent">
-      <div class="PlayerCellChild">
-        <img class="TeamIcon" :id="PlayerInfo.name" :src="getTeamIcon(PlayerInfo.BelongTeam, PlayerInfo.name)">
-        <img class="PlayerImg" :src="PlayerInfo.fotoURL">
+  <transition name="fade">
+    <div v-if="!isLookon || targetItem">
+      <div class="PlayerCellParent">
+        <div class="PlayerCellChild">
+          <img class="TeamIcon" :id="PlayerInfo.name" :src="getTeamIcon(PlayerInfo.BelongTeam, PlayerInfo.name)">
+          <img class="PlayerImg" :src="PlayerInfo.fotoURL">
+        </div>
+        <div class="PlayerCellChild profile" v-b-toggle=PlayerName>
+          <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
+          <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
+          <!-- <b-button class="moreBtn" v-b-toggle=PlayerName>詳細をみる</b-button> -->
+        </div>
+        <div class="PlayerCellChild"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
       </div>
-      <div class="PlayerCellChild profile" v-b-toggle=PlayerName>
-        <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
-        <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
-        <!-- <b-button class="moreBtn" v-b-toggle=PlayerName>詳細をみる</b-button> -->
+      <b-collapse :id="PlayerName">
+        <b-card>
+          <detail-player-cell :PlayerInfo="PlayerInfo"/>
+        </b-card>
+      </b-collapse>
+      <div v-if="IsEdit">
+        <button @click="setTargetToggle(), $emit('lookonToggle')" class="EditButton">編集</button>
+        <button @click="deleteItem(ItemId)" class="DeleteButton">削除</button>
       </div>
-      <div class="PlayerCellChild"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
     </div>
-    <b-collapse :id="PlayerName">
-      <b-card>
-        <detail-player-cell :PlayerInfo="PlayerInfo"/>
-      </b-card>
-    </b-collapse>
-    <div v-if="IsEdit">
-      <button class="EditButton">編集</button>
-      <button @click="deleteItem(ItemId)" class="DeleteButton">削除</button>
-    </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -35,7 +37,8 @@ export default {
       default: ''
     },
     IsEdit: Boolean,
-    ItemId: String
+    ItemId: String,
+    isLookon: Boolean
   },
   mixins: [Mixin],
   data: function () {
@@ -54,7 +57,8 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false
-      }
+      },
+      targetItem: false
     }
   },
   components: {
@@ -82,6 +86,9 @@ export default {
         age += 1
       }
       return age
+    },
+    setTargetToggle () {
+      this.targetItem = !this.targetItem
     }
   }
 }
@@ -138,5 +145,12 @@ export default {
 
 .DeleteButton {
   background-color: rgb(207, 107, 104);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>
