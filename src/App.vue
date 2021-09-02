@@ -1,21 +1,41 @@
 <template>
   <div id="app">
-    <header-parts class="headerParts"/>
-    <div class="parent">
-      <left-area class="child side-child"/>
-      <router-view class="child"/>
+    <div v-if="!isAdminPage()">
+      <header-parts class="headerParts"/>
+      <div class="parent">
+        <left-area class="child side-child"/>
+        <router-view class="child"/>
+      </div>
+    </div>
+    <div class="admincont" v-if="isAdminPage()">
+      <admin-sidebar></admin-sidebar>
+      <router-view/>
     </div>
   </div>
 </template>
 
 <script>
+import Mixin from './mixin'
 import headerParts from './components/HeaderParts.vue'
 import LeftArea from './components/LeftArea.vue'
+import AdminSidebar from './components/admin/sidebar.vue'
 export default {
   name: 'App',
+  mixins: [Mixin],
   components: {
     headerParts,
-    LeftArea
+    LeftArea,
+    AdminSidebar
+  },
+  methods: {
+    isAdminPage () {
+      const path = this.$route.path.split('/')
+      if (path.indexOf('admin') !== -1) {
+        return true
+      } else {
+        return false
+      }
+    }
   }
 }
 </script>
@@ -31,16 +51,15 @@ export default {
   margin: -8px;
 }
 
-.parent {
-  display: flex;
-  height: 100%;
-}
-
 .child {
   width: 100%;
 }
 
 .side-child {
   flex-basis: 30%;
+}
+
+.admincont {
+  display: flex;
 }
 </style>

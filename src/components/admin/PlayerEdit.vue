@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="adminMaincont">
     <player-cell @lookonToggle="lookonToggle" v-for="(Player,key) in Players" :key="key" :isLookon="isLookon" :ItemId="key" :PlayerInfo="Player" :IsEdit=true class="PlayerCell"></player-cell>
     <div class="EditField">
       <h3 v-if="!isLookon">新規登録</h3>
@@ -84,18 +84,15 @@ export default {
       }
       this.isLookon = !this.isLookon
     }
+  },
+  created () {
+    console.log('PEでは')
+    console.log(this.$route.path)
   }
 }
 </script>
 
-<style>
-.EditField {
-  margin-top: 62px;
-  background-color: rgb(228, 250, 228);
-  padding: 32px 0px;
-  margin-right: 160px;
-}
-
+<style scoped>
 .EditField div label {
   width: 100px;
 }

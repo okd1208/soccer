@@ -1,12 +1,7 @@
 <template>
-  <div>
-    <div class="PlayerCellParent">
-      <div class="PlayerCellChild"><img :src="TeamInfo.fotoURL"></div>
-      <div class="PlayerCellChild profile">
-        <h5>{{ TeamInfo.TeamName }}</h5>
-        <p class="PlayerProfile">{{ TeamInfo.TeamName }}</p>
-      </div>
-    </div>
+  <div class="teamcell">
+    <img :src="TeamInfo.fotoURL">
+    <h5>{{ TeamInfo.TeamName }}</h5>
   </div>
 </template>
 
@@ -30,34 +25,14 @@ export default {
 </script>
 
 <style>
-.PlayerCellParent {
-  display: flex;
+.teamcell {
+  width: 20%;
+  margin: 16px;
+  background-color: rgba(11, 19, 58, 0.918);
+  color: aliceblue;
 }
 
-.PlayerCellChild {
-  width: 160px;
-  /* background-color: rgb(172, 189, 172); */
-  height: 160px;
-}
-
-.profile{
-  flex-grow: 1;
-  background-color: rgb(233, 240, 233);
-  text-align: left;
-  padding: 16px 0 0 32px;
-}
-
-.PlayerCellChild > img {
-  width: 160px;
-  height: 160px;
-}
-
-.PlayerProfile {
-  font-size: 12px;
-}
-
-.moreBtn {
-  float: right;
-  margin: 0 16px 16px 0;
+.teamcell img {
+  width: 80%;
 }
 </style>

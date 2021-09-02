@@ -6,3 +6,20 @@
   border: 0px;
   margin: 6px;
 }
+
+.parent {
+  display: flex;
+}
+
+.adminMaincont {
+  margin: 32px auto;
+  width: 70%;
+  background-color: rgb(214, 214, 214);
+}
+
+.EditField {
+  background-color: rgb(228, 250, 228);
+  width: 80%;
+  padding: 32px 0px;
+  margin: 62px auto 0;
+}
