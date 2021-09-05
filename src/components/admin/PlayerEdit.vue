@@ -86,8 +86,6 @@ export default {
     }
   },
   created () {
-    console.log('PEでは')
-    console.log(this.$route.path)
   }
 }
 </script>

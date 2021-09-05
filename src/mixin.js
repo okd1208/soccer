@@ -83,6 +83,14 @@ export default {
         fotoURL: document.getElementById('image').src
       })
     },
+    async UpdateTeamsRef () {
+      await this.TeamsRef.doc(this.PreviewCell.key).update({
+        TeamName: this.TeamName,
+        Menber: this.TeamMenber,
+        fotoURL: document.getElementById('image').src
+      })
+      this.$router.go({path: this.$router.currentRoute.path, force: false})
+    },
     // 新規追加
     UpdatePreviewCell () {
       this.PreviewCell.name = this.PlayerName
@@ -153,6 +161,8 @@ export default {
       this.height = null
       this.position = null
       this.BelongTeam = null
+      this.TeamMenber = null
+      this.TeamName = null
       document.getElementById('image').src = null
       this.UpdatePreviewCell()
       this.moveTop()

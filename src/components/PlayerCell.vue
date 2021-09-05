@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div v-if="!isLookon || targetItem">
-      <div class="PlayerCellParent">
+      <div class="parent">
         <div class="PlayerCellChild">
           <img class="TeamIcon" :id="PlayerInfo.name" :src="getTeamIcon(PlayerInfo.BelongTeam, PlayerInfo.name)">
           <img class="PlayerImg" :src="PlayerInfo.fotoURL">
@@ -94,10 +94,6 @@ export default {
 </script>
 
 <style scoped>
-.PlayerCellParent {
-  display: flex;
-}
-
 .PlayerCellChild {
   width: 160px;
   /* background-color: rgb(172, 189, 172); */
@@ -135,12 +131,5 @@ export default {
 
 .DeleteButton {
   background-color: rgb(207, 107, 104);
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
 }
 </style>
