@@ -37,3 +37,7 @@
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
+
+.DeleteButton {
+  background-color: rgb(207, 107, 104);
+}

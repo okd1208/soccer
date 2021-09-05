@@ -20,7 +20,7 @@
       </b-collapse>
       <div v-if="IsEdit">
         <button @click="setTargetToggle(), $emit('lookonToggle', PlayerInfo, ItemId)" class="EditButton"><span v-if="!targetItem">編集</span><span v-if="targetItem">編集をやめる</span></button>
-        <button @click="deleteItem(ItemId)" class="DeleteButton">削除</button>
+        <button @click="deleteItem(ItemId, 'Players')" class="DeleteButton">削除</button>
       </div>
     </div>
   </transition>
@@ -127,9 +127,5 @@ export default {
   margin-top: 120px;
   margin-left: 120px;
   z-index: 1;
-}
-
-.DeleteButton {
-  background-color: rgb(207, 107, 104);
 }
 </style>

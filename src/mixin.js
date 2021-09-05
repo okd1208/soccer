@@ -137,12 +137,20 @@ export default {
         document.getElementById(imgid).src = url
       })
     },
-    async deleteItem (ItemId) {
-      var result = window.confirm(this.Players[ItemId].name + 'を削除しますか？')
-      if (result) {
-        await this.PlayersRef.doc(ItemId).delete()
+    async deleteItem (ItemId, ref) {
+      let name = ''
+      if (ref === 'Players') {
+        name = this.Players[ItemId].name
+        ref = this.PlayersRef
+      } else if (ref === 'Teams') {
+        name = this.Teams[ItemId].TeamName
+        ref = this.TeamsRef
       }
-      if (result && this.targetItem) {
+      var result = window.confirm(name + 'を削除しますか？')
+      if (result) {
+        await ref.doc(ItemId).delete()
+      }
+      if (result) {
         this.$router.go({path: this.$router.currentRoute.path, force: false})
       }
     },
