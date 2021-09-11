@@ -1,7 +1,7 @@
 <template>
   <div class="adminSidebar">
     <ul>
-      <li><router-link to="/admin">選手情報変更</router-link></li>
+      <li><router-link to="/admin/PlayerEdit">選手情報変更</router-link></li>
       <li><router-link to="/admin/TeamEdit">チーム情報変更</router-link></li>
       <li><router-link to="/">編集画面を抜ける</router-link></li>
     </ul>

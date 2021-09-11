@@ -7,8 +7,7 @@
         <router-view class="child"/>
       </div>
     </div>
-    <div class="admincont" v-if="isAdminPage()">
-      <admin-sidebar></admin-sidebar>
+    <div v-if="isAdminPage()">
       <router-view/>
     </div>
   </div>
@@ -57,9 +56,5 @@ export default {
 
 .side-child {
   flex-basis: 30%;
-}
-
-.admincont {
-  display: flex;
 }
 </style>

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import TopPage from '@/components/mainPage/TopPage'
 import RankingPage from '@/components/mainPage/RankingPage'
+import AdminPage from '@/components/admin/adminPage'
+import AdminTop from '@/components/admin/top'
 import PlayerEdit from '@/components/admin/PlayerEdit'
 import TeamEdit from '@/components/admin/TeamEdit'
 import login from '@/components/admin/login'
@@ -23,15 +25,26 @@ let router = new Router({
     },
     {
       path: '/admin',
-      name: 'PlayerEdit',
-      component: PlayerEdit,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/admin/TeamEdit',
-      name: 'TeamEdit',
-      component: TeamEdit,
-      meta: { requiresAuth: true }
+      name: 'AdminPage',
+      component: AdminPage,
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '',
+          name: 'AdminTop',
+          component: AdminTop
+        },
+        {
+          path: 'PlayerEdit',
+          name: 'PlayerEdit',
+          component: PlayerEdit
+        },
+        {
+          path: 'TeamEdit',
+          name: 'TeamEdit',
+          component: TeamEdit
+        }
+      ]
     },
     {
       path: '/admin-signin',
