@@ -77,6 +77,7 @@ export default {
         this.height = Player.height
         this.position = Player.position
         this.BelongTeam = Player.BelongTeam
+        this.nowBT = Player.BelongTeam
         document.getElementById('image').src = Player.fotoURL
         this.UpdatePreviewCell()
       } else {

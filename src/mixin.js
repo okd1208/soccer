@@ -21,7 +21,8 @@ export default {
       height: null,
       position: null,
       BelongTeam: null,
-      PreviewCell: {name: 'name', profile: 'profile', birthday: null, fotoURL: null, LeagueGC: null, CupGC: null, ClGC: null, LeagueAC: null, CupAC: null, ClAC: null, AbilityScore: [50, 50, 50, 50, 50], uniform: null, from: null, height: null, position: null, BelongTeam: null, key: null},
+      nowBT: undefined,
+      PreviewCell: {name: 'name', profile: 'profile', birthday: null, fotoURL: null, LeagueGC: null, CupGC: null, ClGC: null, LeagueAC: null, CupAC: null, ClAC: null, AbilityScore: [50, 50, 50, 50, 50], uniform: null, from: null, height: null, position: null, key: null, BelongTeam: null},
       // Teams
       TeamsRef: null,
       Teams: null,
@@ -34,8 +35,8 @@ export default {
     TotalScore (League, Cup, Cl) {
       return League + Cup + Cl
     },
-    addPlayersRef (PreviewInfo) {
-      this.PlayersRef.add({
+    async addPlayersRef (PreviewInfo) {
+      await this.PlayersRef.add({
         name: PreviewInfo.name,
         profile: PreviewInfo.profile,
         LeagueGC: Number(PreviewInfo.LeagueGC),
@@ -49,11 +50,36 @@ export default {
         height: Number(PreviewInfo.height),
         birthday: PreviewInfo.birthday,
         position: PreviewInfo.position,
-        BelongTeam: PreviewInfo.BelongTeam,
         fotoURL: document.getElementById('image').src,
         AbilityScore: PreviewInfo.AbilityScore
       })
-      this.clearFeald()
+      this.UpdateBT()
+    },
+    UpdateBT () {
+      if (this.nowBT !== this.BelongTeam) {
+        if (this.nowBT !== undefined) {
+          this.TeamsRef.where('TeamName', '==', this.nowBT).get().then(snapShot => {
+            snapShot.forEach(doc => {
+              this.TeamsRef.doc(doc.id).update({
+                Menber: firebase.firestore.FieldValue.arrayRemove(this.PlayerName)
+              })
+            })
+          })
+        }
+        if (!this.BelongTeam) {
+          this.clearFeald()
+        }
+        this.TeamsRef.where('TeamName', '==', this.BelongTeam).get().then(snapShot => {
+          snapShot.forEach(async doc => {
+            await this.TeamsRef.doc(doc.id).update({
+              Menber: firebase.firestore.FieldValue.arrayUnion(this.PlayerName)
+            })
+            this.$router.go({path: this.$router.currentRoute.path, force: false})
+          })
+        })
+      } else {
+        this.clearFeald()
+      }
     },
     async UpdatePlayersRef (PreviewInfo) {
       await this.PlayersRef.doc(this.PreviewCell.key).update({
@@ -70,11 +96,10 @@ export default {
         height: Number(PreviewInfo.height),
         birthday: PreviewInfo.birthday,
         position: PreviewInfo.position,
-        BelongTeam: PreviewInfo.BelongTeam,
         fotoURL: document.getElementById('image').src,
         AbilityScore: PreviewInfo.AbilityScore
       })
-      this.$router.go({path: this.$router.currentRoute.path, force: false})
+      this.UpdateBT()
     },
     addTeamsRef () {
       this.TeamsRef.add({
@@ -106,7 +131,6 @@ export default {
       this.PreviewCell.from = this.from
       this.PreviewCell.height = this.height
       this.PreviewCell.position = this.position
-      this.PreviewCell.BelongTeam = this.BelongTeam
       this.PreviewCell.fotoURL = document.getElementById('image').src
     },
     fotoUp (inputFileId) {
@@ -169,6 +193,7 @@ export default {
       this.height = null
       this.position = null
       this.BelongTeam = null
+      this.nowBT = undefined
       this.TeamMenber = null
       this.TeamName = null
       document.getElementById('image').src = null

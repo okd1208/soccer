@@ -3,7 +3,7 @@
     <div v-if="!isLookon || targetItem">
       <div class="parent">
         <div class="PlayerCellChild">
-          <img class="TeamIcon" :id="PlayerInfo.name" :src="getTeamIcon(PlayerInfo.BelongTeam, PlayerInfo.name)">
+          <img class="TeamIcon" :id="PlayerInfo.name" :src="getTeamIcon(BelongTeam, PlayerInfo.name)">
           <img class="PlayerImg" :src="PlayerInfo.fotoURL">
         </div>
         <div class="PlayerCellChild profile" v-b-toggle=PlayerName>
@@ -43,6 +43,7 @@ export default {
   mixins: [Mixin],
   data: function () {
     return {
+      BelongTeam: '',
       PlayerName: this.PlayerInfo.name,
       chartData: {
         labels: ['ディフェンス', 'ドリブル', 'アシスト', 'シュート', '体力'],
@@ -89,6 +90,14 @@ export default {
     setTargetToggle () {
       this.targetItem = !this.targetItem
     }
+  },
+  created () {
+    this.TeamsRef.where('Menber', 'array-contains', this.PlayerInfo.name).get().then(snapShot => {
+      snapShot.forEach(doc => {
+        this.BelongTeam = doc.data().TeamName
+        this.$set(this.PlayerInfo, 'BelongTeam', this.BelongTeam)
+      })
+    })
   }
 }
 </script>
