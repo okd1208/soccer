@@ -9,7 +9,7 @@
 
 <script>
 import PlayerCell from '../PlayerCell.vue'
-import Mixin from '../../mixin'
+import Mixin from '../../mixins/DB'
 export default {
   name: 'TopPage',
   mixins: [Mixin],

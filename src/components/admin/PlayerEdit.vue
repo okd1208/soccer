@@ -1,5 +1,5 @@
 <template>
-  <div class="adminMaincont">
+  <div>
     <player-cell @lookonToggle="lookonToggle" v-for="(Player,key) in Players" :key="key" :isLookon="isLookon" :ItemId="key" :PlayerInfo="Player" :IsEdit=true class="PlayerCell"></player-cell>
     <div class="EditField">
       <h3 v-if="!isLookon">新規登録</h3>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import Mixin from '../../mixin'
+import Mixin from '../../mixins/DB'
 import PlayerCell from '@/components/PlayerCell.vue'
 export default {
   mixins: [Mixin],

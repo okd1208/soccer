@@ -1,7 +1,7 @@
 <template>
-  <div class="adminMaincont">
+  <div>
     <div class="parent-wrap">
-      <team-cell @lookonToggle="lookonToggle" v-for="(Team,key) in Teams" :key="key" :isLookon="isLookon" :ItemId="key" :TeamInfo="Team" class="TeamCell"></team-cell>
+      <team-cell @lookonToggle="lookonToggle" v-for="(Team,key) in Teams" :key="key" :isLookon="isLookon" :ItemId="key" :TeamInfo="Team"></team-cell>
     </div>
     <div class="EditField">
       <h3 v-if="!isLookon">新規チーム追加</h3>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Mixin from '../../mixin'
+import Mixin from '../../mixins/DB'
 import TeamCell from '../TeamCell.vue'
 export default {
   mixins: [Mixin],
@@ -50,22 +50,9 @@ export default {
       }
       this.isLookon = !this.isLookon
     }
-  },
-  deleteItem (a, d) {
-    console.log('test')
   }
 }
 </script>
 
 <style scoped>
-.MenberContainer div {
-  display: inline-block;
-  margin: 12px 32px;
-}
-.MenberContainer {
-  padding-top: 16px;
-  margin: 0 auto;
-  width: 80%;
-  background-color: rgba(238, 232, 232, 0.705);
-}
 </style>

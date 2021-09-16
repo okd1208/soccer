@@ -41,3 +41,14 @@
 .DeleteButton {
   background-color: rgb(207, 107, 104);
 }
+
+.MenberContainer div {
+  display: inline-block;
+  margin: 12px 32px;
+}
+.MenberContainer {
+  padding-top: 16px;
+  margin: 0 auto;
+  width: 80%;
+  background-color: rgba(238, 232, 232, 0.705);
+}

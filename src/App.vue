@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Mixin from './mixin'
+import Mixin from './mixins/DB'
 import headerParts from './components/HeaderParts.vue'
 import LeftArea from './components/LeftArea.vue'
 import AdminSidebar from './components/admin/sidebar.vue'

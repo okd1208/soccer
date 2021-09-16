@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Mixin from '../mixin'
+import Mixin from '../mixins/DB'
 export default {
   props: {
     'TeamInfo': {

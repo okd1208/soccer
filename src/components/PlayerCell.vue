@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Mixin from '../mixin'
+import Mixin from '../mixins/DB'
 import Chart from './RaderChart.vue'
 import DetailPlayerCell from './DetailPlayerCell.vue'
 export default {

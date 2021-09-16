@@ -1,7 +1,7 @@
 <template>
   <div class="parent">
     <admin-sidebar></admin-sidebar>
-    <router-view/>
+    <router-view class="adminMaincont"/>
   </div>
 </template>
 

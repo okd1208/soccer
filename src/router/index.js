@@ -6,6 +6,7 @@ import AdminPage from '@/components/admin/adminPage'
 import AdminTop from '@/components/admin/top'
 import PlayerEdit from '@/components/admin/PlayerEdit'
 import TeamEdit from '@/components/admin/TeamEdit'
+import event from '@/components/admin/event'
 import login from '@/components/admin/login'
 import firebase from 'firebase'
 
@@ -27,7 +28,7 @@ let router = new Router({
       path: '/admin',
       name: 'AdminPage',
       component: AdminPage,
-      meta: { requiresAuth: true },
+      // meta: { requiresAuth: true },
       children: [
         {
           path: '',
@@ -43,6 +44,11 @@ let router = new Router({
           path: 'TeamEdit',
           name: 'TeamEdit',
           component: TeamEdit
+        },
+        {
+          path: 'event',
+          name: 'event',
+          component: event
         }
       ]
     },

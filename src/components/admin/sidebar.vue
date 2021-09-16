@@ -3,6 +3,7 @@
     <ul>
       <li><router-link to="/admin/PlayerEdit">選手情報変更</router-link></li>
       <li><router-link to="/admin/TeamEdit">チーム情報変更</router-link></li>
+      <li><router-link to="/admin/event">イベント編集</router-link></li>
       <li><router-link to="/">編集画面を抜ける</router-link></li>
     </ul>
   </div>

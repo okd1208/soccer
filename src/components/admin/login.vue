@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Mixin from '../../mixin'
+import Mixin from '../../mixins/DB'
 import firebase from 'firebase'
 export default {
   mixins: [Mixin],

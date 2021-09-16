@@ -28,7 +28,13 @@ export default {
       Teams: null,
       TeamName: null,
       TeamMenber: [],
-      targetItem: false
+      targetItem: false,
+      // Event
+      EventRef: null,
+      Event: null,
+      EventName: null,
+      EventType: null,
+      ParticipatingTeam: []
     }
   },
   methods: {
@@ -108,6 +114,14 @@ export default {
         fotoURL: document.getElementById('image').src
       })
     },
+    addEventRef () {
+      this.EventRef.add({
+        EventName: this.EventName,
+        ParticipatingTeam: this.ParticipatingTeam,
+        EventType: this.EventType,
+        fotoURL: document.getElementById('image').src
+      })
+    },
     async UpdateTeamsRef () {
       await this.TeamsRef.doc(this.PreviewCell.key).update({
         TeamName: this.TeamName,
@@ -143,6 +157,8 @@ export default {
         this.ref = firebase.storage().ref().child('images/Player/' + this.PlayerName)
       } else if (inputFileId === 'TeamInput') {
         this.ref = firebase.storage().ref().child('images/Team/' + this.TeamName)
+      } else if (inputFileId === 'EventInput') {
+        this.ref = firebase.storage().ref().child('images/Event/' + this.EventName)
       }
       refClone = this.ref
       this.ref.put(image).then(function (snapshot) {
@@ -169,6 +185,9 @@ export default {
       } else if (ref === 'Teams') {
         name = this.Teams[ItemId].TeamName
         ref = this.TeamsRef
+      } else if (ref === 'Event') {
+        name = this.Event[ItemId].EventName
+        ref = this.EventRef
       }
       var result = window.confirm(name + 'を削除しますか？')
       if (result) {
@@ -196,6 +215,9 @@ export default {
       this.nowBT = undefined
       this.TeamMenber = null
       this.TeamName = null
+      this.EventName = null
+      this.ParticipatingTeam = []
+      this.EventType = null
       document.getElementById('image').src = null
       this.UpdatePreviewCell()
       this.moveTop()
@@ -221,8 +243,6 @@ export default {
         obj[doc.id] = doc.data()
       })
       this.Players = obj
-      // var key = Object.keys(obj)
-      // console.log(key)
     })
     this.TeamsRef = this.db.collection('Team')
     this.TeamsRef.onSnapshot(querySnapshot => {
@@ -231,6 +251,14 @@ export default {
         obj[doc.id] = doc.data()
       })
       this.Teams = obj
+    })
+    this.EventRef = this.db.collection('Event')
+    this.EventRef.onSnapshot(querySnapshot => {
+      const obj = {}
+      querySnapshot.forEach(doc => {
+        obj[doc.id] = doc.data()
+      })
+      this.Event = obj
       // var key = Object.keys(obj)
       // console.log(key)
     })
