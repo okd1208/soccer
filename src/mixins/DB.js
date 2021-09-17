@@ -4,6 +4,7 @@ export default {
     return {
       db: null,
       ref: null,
+      errorMessage: null,
       // Player
       PlayersRef: null,
       Players: null,
@@ -22,7 +23,7 @@ export default {
       position: null,
       BelongTeam: null,
       nowBT: undefined,
-      PreviewCell: {name: 'name', profile: 'profile', birthday: null, fotoURL: null, LeagueGC: null, CupGC: null, ClGC: null, LeagueAC: null, CupAC: null, ClAC: null, AbilityScore: [50, 50, 50, 50, 50], uniform: null, from: null, height: null, position: null, key: null, BelongTeam: null},
+      PreviewCell: {name: null, profile: null, birthday: null, fotoURL: null, LeagueGC: null, CupGC: null, ClGC: null, LeagueAC: null, CupAC: null, ClAC: null, AbilityScore: [50, 50, 50, 50, 50], uniform: null, from: null, height: null, position: null, key: null, BelongTeam: null},
       // Teams
       TeamsRef: null,
       Teams: null,
@@ -41,7 +42,21 @@ export default {
     TotalScore (League, Cup, Cl) {
       return League + Cup + Cl
     },
+    checkForm () {
+      this.UpdatePreviewCell()
+      if (this.PreviewCell.name) {
+        console.log(this.PreviewCell)
+        this.errorMessage = null
+      } else {
+        console.log('eee')
+        this.errorMessage = '※nameを入力して下さい。'
+      }
+    },
     async addPlayersRef (PreviewInfo) {
+      this.checkForm()
+      if (this.errorMessage) {
+        return
+      }
       await this.PlayersRef.add({
         name: PreviewInfo.name,
         profile: PreviewInfo.profile,
@@ -60,7 +75,8 @@ export default {
         AbilityScore: PreviewInfo.AbilityScore,
         StoragePath: 'images/Players/' + PreviewInfo.name
       })
-      this.UpdateBT()
+      await this.UpdateBT()
+      this.clearFeald()
     },
     UpdateBT () {
       if (this.nowBT !== this.BelongTeam) {
@@ -89,6 +105,10 @@ export default {
       }
     },
     async UpdatePlayersRef (PreviewInfo) {
+      this.checkForm()
+      if (this.errorMessage) {
+        return
+      }
       await this.PlayersRef.doc(this.PreviewCell.key).update({
         name: PreviewInfo.name,
         profile: PreviewInfo.profile,
@@ -106,36 +126,77 @@ export default {
         fotoURL: document.getElementById('image').src,
         AbilityScore: PreviewInfo.AbilityScore
       })
-      this.UpdateBT()
+      await this.UpdateBT()
+      this.clearFeald()
     },
-    addTeamsRef () {
-      this.TeamsRef.add({
+    async addTeamsRef () {
+      this.checkForm()
+      if (this.errorMessage) {
+        return
+      }
+      await this.TeamsRef.add({
         TeamName: this.TeamName,
         Menber: this.TeamMenber,
         fotoURL: document.getElementById('image').src,
         StoragePath: 'images/Teams/' + this.TeamName
       })
+      this.clearFeald()
+      // this.$router.go({path: this.$router.currentRoute.path, force: false})
     },
-    addEventRef () {
-      this.EventRef.add({
+    async UpdateTeamsRef () {
+      this.checkForm()
+      if (this.errorMessage) {
+        return
+      }
+      await this.TeamsRef.doc(this.PreviewCell.key).update({
+        TeamName: this.TeamName,
+        Menber: this.TeamMenber,
+        fotoURL: document.getElementById('image').src
+      })
+      this.clearFeald()
+      // this.$router.go({path: this.$router.currentRoute.path, force: false})
+    },
+    async addEventRef () {
+      this.checkForm()
+      if (this.errorMessage) {
+        return
+      }
+      await this.EventRef.add({
         EventName: this.EventName,
         ParticipatingTeam: this.ParticipatingTeam,
         EventType: this.EventType,
         fotoURL: document.getElementById('image').src,
         StoragePath: 'images/Event/' + this.EventName
       })
+      this.clearFeald()
+      // this.$router.go({path: this.$router.currentRoute.path, force: false})
     },
-    async UpdateTeamsRef () {
-      await this.TeamsRef.doc(this.PreviewCell.key).update({
-        TeamName: this.TeamName,
-        Menber: this.TeamMenber,
+    async UpdateEventRef () {
+      this.checkForm()
+      if (this.errorMessage) {
+        return
+      }
+      await this.EventRef.doc(this.PreviewCell.key).update({
+        EventName: this.EventName,
+        ParticipatingTeam: this.ParticipatingTeam,
+        EventType: this.EventType,
         fotoURL: document.getElementById('image').src
       })
-      this.$router.go({path: this.$router.currentRoute.path, force: false})
+      this.clearFeald()
+      // this.$router.go({path: this.$router.currentRoute.path, force: false})
     },
     // 新規追加
     UpdatePreviewCell () {
-      this.PreviewCell.name = this.PlayerName
+      if (this.PlayerName) {
+        this.PreviewCell.name = this.PlayerName
+        console.log(this.PlayerName)
+      } else if (this.TeamName) {
+        this.PreviewCell.name = this.TeamName
+        console.log(this.TeamName)
+      } else if (this.EventName) {
+        this.PreviewCell.name = this.EventName
+        console.log(this.EventName)
+      }
       this.PreviewCell.birthday = this.birthday
       this.PreviewCell.profile = this.profile
       this.PreviewCell.LeagueGC = this.LeagueGC
@@ -231,6 +292,7 @@ export default {
       this.ParticipatingTeam = []
       this.EventType = null
       document.getElementById('image').src = null
+      this.PreviewCell.name = null
       this.UpdatePreviewCell()
       this.moveTop()
     },

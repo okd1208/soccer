@@ -20,6 +20,7 @@
       <button class="simpleBtn" v-if="!isLookon" @click="addTeamsRef(PreviewCell)">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdateTeamsRef(PreviewCell)">保存</button>
       <button class="DeleteButton" v-if="isLookon" @click="deleteItem(PreviewCell.key, 'Event')">削除</button>
+      <p v-if="errorMessage">{{ errorMessage }}</p>
     </div>
   </div>
 </template>

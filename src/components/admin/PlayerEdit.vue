@@ -39,6 +39,7 @@
       <div>
       <button class="simpleBtn" v-if="!isLookon" @click="addPlayersRef(PreviewCell)">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdatePlayersRef(PreviewCell)">保存</button>
+      <p v-if="errorMessage">{{ errorMessage }}</p>
       </div>
     </div>
     <player-cell :PlayerInfo="PreviewCell" class="PlayerCell"></player-cell>
