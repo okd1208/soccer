@@ -3,15 +3,15 @@
     <p>リーグ別で見る</p>
     <ul>
       <li>
-        <img class="LeftAreaImg" src="../assets/kasima.png">
+        <img class="LeftAreaImg" src="../assets/logo.png">
         <p>KASIMA</p>
       </li>
       <li>
-        <img class="LeftAreaImg" src="../assets/vissel.png">
+        <img class="LeftAreaImg" src="../assets/logo.png">
         <p>VISSEL</p>
       </li>
       <li>
-        <img class="LeftAreaImg" src="../assets/kawasaki.png">
+        <img class="LeftAreaImg" src="../assets/logo.png">
         <p>KAWASIMA</p>
       </li>
     </ul>

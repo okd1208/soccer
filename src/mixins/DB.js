@@ -57,7 +57,8 @@ export default {
         birthday: PreviewInfo.birthday,
         position: PreviewInfo.position,
         fotoURL: document.getElementById('image').src,
-        AbilityScore: PreviewInfo.AbilityScore
+        AbilityScore: PreviewInfo.AbilityScore,
+        StoragePath: 'images/Players/' + PreviewInfo.name
       })
       this.UpdateBT()
     },
@@ -111,7 +112,8 @@ export default {
       this.TeamsRef.add({
         TeamName: this.TeamName,
         Menber: this.TeamMenber,
-        fotoURL: document.getElementById('image').src
+        fotoURL: document.getElementById('image').src,
+        StoragePath: 'images/Teams/' + this.TeamName
       })
     },
     addEventRef () {
@@ -119,7 +121,8 @@ export default {
         EventName: this.EventName,
         ParticipatingTeam: this.ParticipatingTeam,
         EventType: this.EventType,
-        fotoURL: document.getElementById('image').src
+        fotoURL: document.getElementById('image').src,
+        StoragePath: 'images/Event/' + this.EventName
       })
     },
     async UpdateTeamsRef () {
@@ -154,9 +157,9 @@ export default {
       files = document.getElementById(inputFileId).files
       image = files[0]
       if (inputFileId === 'PlayerInput') {
-        this.ref = firebase.storage().ref().child('images/Player/' + this.PlayerName)
+        this.ref = firebase.storage().ref().child('images/Players/' + this.PlayerName)
       } else if (inputFileId === 'TeamInput') {
-        this.ref = firebase.storage().ref().child('images/Team/' + this.TeamName)
+        this.ref = firebase.storage().ref().child('images/Teams/' + this.TeamName)
       } else if (inputFileId === 'EventInput') {
         this.ref = firebase.storage().ref().child('images/Event/' + this.EventName)
       }
@@ -173,24 +176,33 @@ export default {
       if (!teamname) {
         return
       }
-      firebase.storage().ref().child('images/Team/' + teamname).getDownloadURL().then((url) => {
+      firebase.storage().ref().child('images/Teams/' + teamname).getDownloadURL().then((url) => {
         document.getElementById(imgid).src = url
       })
     },
     async deleteItem (ItemId, ref) {
       let name = ''
+      let storagePath = ''
       if (ref === 'Players') {
         name = this.Players[ItemId].name
         ref = this.PlayersRef
+        storagePath = this.Players[ItemId].StoragePath
       } else if (ref === 'Teams') {
         name = this.Teams[ItemId].TeamName
         ref = this.TeamsRef
+        storagePath = this.Teams[ItemId].StoragePath
       } else if (ref === 'Event') {
         name = this.Event[ItemId].EventName
         ref = this.EventRef
+        storagePath = this.Event[ItemId].StoragePath
       }
+      storagePath = firebase.storage().ref().child(storagePath)
       var result = window.confirm(name + 'を削除しますか？')
       if (result) {
+        await storagePath.delete().then(function () {
+        }).catch(function (error) {
+          console.log(error)
+        })
         await ref.doc(ItemId).delete()
       }
       if (result) {
