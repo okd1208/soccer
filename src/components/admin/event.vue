@@ -6,7 +6,7 @@
     <div class="EditField">
       <h3 v-if="!isLookon">新規チーム追加</h3>
       <h3 v-if="isLookon">編集</h3>
-      <div><label>名前</label><input v-model="EventName" type="text"></div>
+      <div><label>名前</label><input @change="UpdatePreviewCell()" v-model="EventName" type="text"></div>
         <label><input type="radio" v-model="EventType" value="league">リーグ</label>
         <label><input type="radio" v-model="EventType" value="cup">カップ</label>
         <label><input type="radio" v-model="EventType" value="clel">CL.EL</label>
@@ -19,7 +19,7 @@
       </div>
       <p></p>
       <span><img id="image" width='100px' @change="UpdatePreviewCell()" src=""></span>
-      <input @change="fotoUp('EventInput')" id="EventInput" type="file" value="upload">
+      <input @change="fotoUp()" id="EventInput" type="file" value="upload">
       <button class="simpleBtn" v-if="!isLookon" @click="addEventRef()">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdateEventRef(PreviewCell)">保存</button>
       <button class="DeleteButton" v-if="isLookon" @click="deleteItem(PreviewCell.key, 'Event')">削除</button>

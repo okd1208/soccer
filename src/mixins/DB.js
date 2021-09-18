@@ -234,15 +234,9 @@ export default {
       var image
       var files
       var refClone
-      files = document.getElementById(inputFileId).files
+      files = document.getElementById(this.PreviewCell.collection + 'Input').files
       image = files[0]
-      if (inputFileId === 'PlayerInput') {
-        this.ref = firebase.storage().ref().child('images/Players/' + this.PlayerName)
-      } else if (inputFileId === 'TeamInput') {
-        this.ref = firebase.storage().ref().child('images/Teams/' + this.TeamName)
-      } else if (inputFileId === 'EventInput') {
-        this.ref = firebase.storage().ref().child('images/Event/' + this.EventName)
-      }
+      this.ref = firebase.storage().ref().child('images/' + this.PreviewCell.collection + '/' + this.PreviewCell.name)
       refClone = this.ref
       this.ref.put(image).then(function (snapshot) {
         alert('アップロードしました')

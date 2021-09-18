@@ -6,7 +6,7 @@
     <div class="EditField">
       <h3 v-if="!isLookon">新規チーム追加</h3>
       <h3 v-if="isLookon">編集</h3>
-      <div><label class="NewTeamLabel">名前</label><input v-model="TeamName" type="text"></div>
+      <div><label class="NewTeamLabel">名前</label><input @change="UpdatePreviewCell()" v-model="TeamName" type="text"></div>
       <div class="MenberContainer">
         <h5>選手を選択</h5>
         <div v-for="Player in Players" :key="Player.name">
@@ -16,7 +16,7 @@
       </div>
       <p></p>
       <span><img id="image" width='100px' @change="UpdatePreviewCell()" src=""></span>
-      <input @change="fotoUp('TeamInput')" id="TeamInput" type="file" value="upload">
+      <input @change="fotoUp()" id="TeamsInput" type="file" value="upload">
       <button class="simpleBtn" v-if="!isLookon" @click="addTeamsRef(PreviewCell)">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdateTeamsRef(PreviewCell)">保存</button>
       <button class="DeleteButton" v-if="isLookon" @click="deleteItem(PreviewCell.key, 'Team')">削除</button>
