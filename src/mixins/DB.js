@@ -23,7 +23,7 @@ export default {
       position: null,
       BelongTeam: null,
       nowBT: undefined,
-      PreviewCell: {name: null, profile: null, birthday: null, fotoURL: null, LeagueGC: null, CupGC: null, ClGC: null, LeagueAC: null, CupAC: null, ClAC: null, AbilityScore: [50, 50, 50, 50, 50], uniform: null, from: null, height: null, position: null, key: null, BelongTeam: null},
+      PreviewCell: {preview: true, AbilityScore: [50, 50, 50, 50, 50]},
       // Teams
       TeamsRef: null,
       Teams: null,
@@ -45,38 +45,10 @@ export default {
     checkForm () {
       this.UpdatePreviewCell()
       if (this.PreviewCell.name) {
-        console.log(this.PreviewCell)
         this.errorMessage = null
       } else {
-        console.log('eee')
         this.errorMessage = '※nameを入力して下さい。'
       }
-    },
-    async addPlayersRef (PreviewInfo) {
-      this.checkForm()
-      if (this.errorMessage) {
-        return
-      }
-      await this.PlayersRef.add({
-        name: PreviewInfo.name,
-        profile: PreviewInfo.profile,
-        LeagueGC: Number(PreviewInfo.LeagueGC),
-        CupGC: Number(PreviewInfo.CupGC),
-        ClGC: Number(PreviewInfo.ClGC),
-        LeagueAC: Number(PreviewInfo.LeagueAC),
-        CupAC: Number(PreviewInfo.CupAC),
-        ClAC: Number(PreviewInfo.ClAC),
-        uniform: Number(PreviewInfo.uniform),
-        from: PreviewInfo.from,
-        height: Number(PreviewInfo.height),
-        birthday: PreviewInfo.birthday,
-        position: PreviewInfo.position,
-        fotoURL: document.getElementById('image').src,
-        AbilityScore: PreviewInfo.AbilityScore,
-        StoragePath: 'images/Players/' + PreviewInfo.name
-      })
-      await this.UpdateBT()
-      this.clearFeald()
     },
     UpdateBT () {
       if (this.nowBT !== this.BelongTeam) {
@@ -103,6 +75,32 @@ export default {
       } else {
         this.clearFeald()
       }
+    },
+    async addPlayersRef (PreviewInfo) {
+      this.checkForm()
+      if (this.errorMessage) {
+        return
+      }
+      await this.PlayersRef.add({
+        name: PreviewInfo.name,
+        profile: PreviewInfo.profile,
+        LeagueGC: PreviewInfo.LeagueGC,
+        CupGC: Number(PreviewInfo.CupGC),
+        ClGC: Number(PreviewInfo.ClGC),
+        LeagueAC: Number(PreviewInfo.LeagueAC),
+        CupAC: Number(PreviewInfo.CupAC),
+        ClAC: Number(PreviewInfo.ClAC),
+        uniform: Number(PreviewInfo.uniform),
+        from: PreviewInfo.from,
+        height: Number(PreviewInfo.height),
+        birthday: PreviewInfo.birthday,
+        position: PreviewInfo.position,
+        AbilityScore: PreviewInfo.AbilityScore,
+        fotoURL: document.getElementById('image').src,
+        StoragePath: 'images/Players/' + PreviewInfo.name
+      })
+      await this.UpdateBT()
+      this.clearFeald()
     },
     async UpdatePlayersRef (PreviewInfo) {
       this.checkForm()
@@ -185,17 +183,14 @@ export default {
       this.clearFeald()
       // this.$router.go({path: this.$router.currentRoute.path, force: false})
     },
-    // 新規追加
+    // nameやkeyの受け渡しと、PlayerCellのプレビュー用
     UpdatePreviewCell () {
       if (this.PlayerName) {
         this.PreviewCell.name = this.PlayerName
-        console.log(this.PlayerName)
       } else if (this.TeamName) {
         this.PreviewCell.name = this.TeamName
-        console.log(this.TeamName)
       } else if (this.EventName) {
         this.PreviewCell.name = this.EventName
-        console.log(this.EventName)
       }
       this.PreviewCell.birthday = this.birthday
       this.PreviewCell.profile = this.profile

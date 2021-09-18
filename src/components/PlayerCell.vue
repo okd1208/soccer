@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     getage (birthday) {
-      if (birthday === null) {
+      if (!birthday) {
         return 0
       }
       var today = new Date()
@@ -92,12 +92,16 @@ export default {
     }
   },
   created () {
+    if (this.PlayerInfo.preview) {
+      return
+    }
     this.TeamsRef.where('Menber', 'array-contains', this.PlayerInfo.name).get().then(snapShot => {
       snapShot.forEach(doc => {
         this.BelongTeam = doc.data().TeamName
         this.$set(this.PlayerInfo, 'BelongTeam', this.BelongTeam)
       })
     })
+    console.log(this.PlayerInfo)
   }
 }
 </script>
