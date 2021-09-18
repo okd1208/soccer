@@ -79,6 +79,8 @@ export default {
         this.position = Player.position
         this.BelongTeam = Player.BelongTeam
         this.nowBT = Player.BelongTeam
+        this.nowName = Player.name
+        this.storagePath = Player.storagePath
         document.getElementById('image').src = Player.fotoURL
         this.UpdatePreviewCell()
       } else {

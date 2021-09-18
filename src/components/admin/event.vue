@@ -47,6 +47,8 @@ export default {
         this.PreviewCell.key = key
         this.EventName = Event.EventName
         this.EventType = Event.EventType
+        this.nowName = Event.EventName
+        this.storagePath = Event.storagePath
         this.ParticipatingTeam = Event.ParticipatingTeam
         document.getElementById('image').src = Event.fotoURL
         this.UpdatePreviewCell()

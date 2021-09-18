@@ -19,7 +19,7 @@
       <input @change="fotoUp('TeamInput')" id="TeamInput" type="file" value="upload">
       <button class="simpleBtn" v-if="!isLookon" @click="addTeamsRef(PreviewCell)">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdateTeamsRef(PreviewCell)">保存</button>
-      <button class="DeleteButton" v-if="isLookon" @click="deleteItem(PreviewCell.key, 'Event')">削除</button>
+      <button class="DeleteButton" v-if="isLookon" @click="deleteItem(PreviewCell.key, 'Team')">削除</button>
       <p v-if="errorMessage">{{ errorMessage }}</p>
     </div>
   </div>
@@ -44,6 +44,8 @@ export default {
         this.PreviewCell.key = key
         this.TeamName = Team.TeamName
         this.TeamMenber = Team.Menber
+        this.nowName = Team.TeamName
+        this.storagePath = Team.storagePath
         document.getElementById('image').src = Team.fotoURL
         this.UpdatePreviewCell()
       } else {

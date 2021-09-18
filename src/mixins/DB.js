@@ -5,6 +5,10 @@ export default {
       db: null,
       ref: null,
       errorMessage: null,
+      isFotoUp: false,
+      nowName: null,
+      collection: null,
+      storagePath: null,
       // Player
       PlayersRef: null,
       Players: null,
@@ -46,6 +50,19 @@ export default {
       this.UpdatePreviewCell()
       if (this.PreviewCell.name) {
         this.errorMessage = null
+        // 編集画面
+        if (this.nowName) {
+          const storagePathName = this.storagePath.split('/')
+          // storagePathにが正しいか
+          if (this.PreviewCell.name !== storagePathName[1]) {
+            // 写真変更チェック
+            if (this.isFotoUp) {
+              this.deleteStorageItem(this.PreviewCell.collection + '/' + storagePathName[1])
+              this.storagePath = this.PreviewCell.collection + '/' + this.PreviewCell.name
+            }
+            // 所属チーム情報変更
+          }
+        }
       } else {
         this.errorMessage = '※nameを入力して下さい。'
       }
@@ -97,7 +114,7 @@ export default {
         position: PreviewInfo.position,
         AbilityScore: PreviewInfo.AbilityScore,
         fotoURL: document.getElementById('image').src,
-        StoragePath: 'images/Players/' + PreviewInfo.name
+        storagePath: 'Players/' + PreviewInfo.name
       })
       await this.UpdateBT()
       this.clearFeald()
@@ -122,7 +139,8 @@ export default {
         birthday: PreviewInfo.birthday,
         position: PreviewInfo.position,
         fotoURL: document.getElementById('image').src,
-        AbilityScore: PreviewInfo.AbilityScore
+        AbilityScore: PreviewInfo.AbilityScore,
+        storagePath: this.storagePath
       })
       await this.UpdateBT()
       this.clearFeald()
@@ -136,7 +154,7 @@ export default {
         TeamName: this.TeamName,
         Menber: this.TeamMenber,
         fotoURL: document.getElementById('image').src,
-        StoragePath: 'images/Teams/' + this.TeamName
+        storagePath: 'Teams/' + this.TeamName
       })
       this.clearFeald()
       // this.$router.go({path: this.$router.currentRoute.path, force: false})
@@ -149,7 +167,8 @@ export default {
       await this.TeamsRef.doc(this.PreviewCell.key).update({
         TeamName: this.TeamName,
         Menber: this.TeamMenber,
-        fotoURL: document.getElementById('image').src
+        fotoURL: document.getElementById('image').src,
+        storagePath: this.storagePath
       })
       this.clearFeald()
       // this.$router.go({path: this.$router.currentRoute.path, force: false})
@@ -164,7 +183,7 @@ export default {
         ParticipatingTeam: this.ParticipatingTeam,
         EventType: this.EventType,
         fotoURL: document.getElementById('image').src,
-        StoragePath: 'images/Event/' + this.EventName
+        storagePath: 'Event/' + this.EventName
       })
       this.clearFeald()
       // this.$router.go({path: this.$router.currentRoute.path, force: false})
@@ -178,7 +197,8 @@ export default {
         EventName: this.EventName,
         ParticipatingTeam: this.ParticipatingTeam,
         EventType: this.EventType,
-        fotoURL: document.getElementById('image').src
+        fotoURL: document.getElementById('image').src,
+        storagePath: this.storagePath
       })
       this.clearFeald()
       // this.$router.go({path: this.$router.currentRoute.path, force: false})
@@ -187,11 +207,15 @@ export default {
     UpdatePreviewCell () {
       if (this.PlayerName) {
         this.PreviewCell.name = this.PlayerName
+        this.PreviewCell.collection = 'Players'
       } else if (this.TeamName) {
         this.PreviewCell.name = this.TeamName
+        this.PreviewCell.collection = 'Teams'
       } else if (this.EventName) {
         this.PreviewCell.name = this.EventName
+        this.PreviewCell.collection = 'Event'
       }
+      this.PreviewCell.storagePath = this.storagePath
       this.PreviewCell.birthday = this.birthday
       this.PreviewCell.profile = this.profile
       this.PreviewCell.LeagueGC = this.LeagueGC
@@ -227,6 +251,7 @@ export default {
         })
       })
       // 非同期でthis.UpdatePreviewCell()
+      this.isFotoUp = true
     },
     getTeamIcon (teamname, imgid) {
       if (!teamname) {
@@ -236,29 +261,31 @@ export default {
         document.getElementById(imgid).src = url
       })
     },
+    async deleteStorageItem (path) {
+      let storagePath = firebase.storage().ref().child('images/' + path)
+      await storagePath.delete().then(function () {
+      }).catch(function (error) {
+        console.log(error)
+      })
+    },
     async deleteItem (ItemId, ref) {
       let name = ''
-      let storagePath = ''
       if (ref === 'Players') {
         name = this.Players[ItemId].name
         ref = this.PlayersRef
-        storagePath = this.Players[ItemId].StoragePath
+        this.storagePath = this.Players[ItemId].storagePath
       } else if (ref === 'Teams') {
         name = this.Teams[ItemId].TeamName
         ref = this.TeamsRef
-        storagePath = this.Teams[ItemId].StoragePath
+        this.storagePath = this.Teams[ItemId].storagePath
       } else if (ref === 'Event') {
         name = this.Event[ItemId].EventName
         ref = this.EventRef
-        storagePath = this.Event[ItemId].StoragePath
+        this.storagePath = this.Event[ItemId].storagePath
       }
-      storagePath = firebase.storage().ref().child(storagePath)
       var result = window.confirm(name + 'を削除しますか？')
       if (result) {
-        await storagePath.delete().then(function () {
-        }).catch(function (error) {
-          console.log(error)
-        })
+        this.deleteStorageItem(this.storagePath)
         await ref.doc(ItemId).delete()
       }
       if (result) {
@@ -286,6 +313,9 @@ export default {
       this.EventName = null
       this.ParticipatingTeam = []
       this.EventType = null
+      this.isFotoUp = false
+      this.nowName = null
+      this.storagePath = null
       document.getElementById('image').src = null
       this.PreviewCell.name = null
       this.UpdatePreviewCell()
