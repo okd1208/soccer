@@ -18,7 +18,7 @@
         </div>
       </div>
       <p></p>
-      <span><img id="image" width='100px' @change="UpdatePreviewCell()" src=""></span>
+      <span @change="UpdatePreviewCell()"><img id="image" width='100px' src=""></span>
       <input @change="fotoUp()" v-bind:disabled="!isEditable" id="EventInput" type="file" value="upload">
       <button v-bind:disabled="!isEditable" class="simpleBtn" v-if="!isLookon" @click="addEventRef()">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdateEventRef(PreviewCell)">保存</button>

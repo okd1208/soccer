@@ -101,7 +101,6 @@ export default {
         this.$set(this.PlayerInfo, 'BelongTeam', this.BelongTeam)
       })
     })
-    console.log(this.PlayerInfo)
   }
 }
 </script>

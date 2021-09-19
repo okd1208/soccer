@@ -9,6 +9,7 @@ export default {
       nowName: null,
       collection: null,
       storagePath: null,
+      newnewStoragePath: null,
       isEditable: false,
       // Player
       PlayersRef: null,
@@ -49,20 +50,17 @@ export default {
     },
     checkForm () {
       this.UpdatePreviewCell()
-      if (this.PreviewCell.name) {
+      if (this.isEditable) {
         this.errorMessage = null
         // 編集画面
         if (this.nowName) {
           const storagePathName = this.storagePath.split('/')
-          // storagePathにが正しいか
-          if (this.PreviewCell.name !== storagePathName[1]) {
-            // 写真変更チェック
-            if (this.isFotoUp) {
-              this.deleteStorageItem(this.PreviewCell.collection + '/' + storagePathName[1])
-              this.storagePath = this.PreviewCell.collection + '/' + this.PreviewCell.name
-            }
-            // 所属チーム情報変更
+          if (this.isFotoUp) {
+            this.deleteStorageItem(this.PreviewCell.collection + '/' + storagePathName[1])
+            this.storagePath = this.newStoragePath
           }
+          // 所属チーム情報変更
+          // }
         }
       } else {
         this.errorMessage = '※nameを入力して下さい。'
@@ -236,7 +234,8 @@ export default {
       this.PreviewCell.position = this.position
       this.PreviewCell.fotoURL = document.getElementById('image').src
     },
-    fotoUp (inputFileId) {
+    async fotoUp () {
+      this.isEditable = false
       var image
       var files
       var refClone
@@ -244,14 +243,15 @@ export default {
       image = files[0]
       this.ref = firebase.storage().ref().child('images/' + this.PreviewCell.collection + '/' + this.PreviewCell.name)
       refClone = this.ref
-      this.ref.put(image).then(function (snapshot) {
-        alert('アップロードしました')
+      await this.ref.put(image).then(function (snapshot) {
         refClone.getDownloadURL().then((downloadURL) => {
           document.getElementById('image').src = downloadURL
         })
       })
       // 非同期でthis.UpdatePreviewCell()
+      this.newStoragePath = this.PreviewCell.collection + '/' + this.PreviewCell.name
       this.isFotoUp = true
+      this.isEditable = true
     },
     getTeamIcon (teamname, imgid) {
       if (!teamname) {
