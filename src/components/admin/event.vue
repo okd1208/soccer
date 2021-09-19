@@ -20,6 +20,7 @@
       <p></p>
       <span @change="UpdatePreviewCell()"><img id="image" width='100px' src=""></span>
       <input @change="fotoUp()" v-bind:disabled="!isEditable" id="EventInput" type="file" value="upload">
+      <loading-icon v-show="loading"></loading-icon>
       <button v-bind:disabled="!isEditable" class="simpleBtn" v-if="!isLookon" @click="addEventRef()">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdateEventRef(PreviewCell)">保存</button>
       <button class="DeleteButton" v-if="isLookon" @click="deleteItem(PreviewCell.key, 'Event')">削除</button>
@@ -31,10 +32,12 @@
 <script>
 import Mixin from '../../mixins/DB'
 import LogoCell from '../TeamCell.vue'
+import LoadingIcon from '../Loading.vue'
 export default {
   mixins: [Mixin],
   components: {
-    LogoCell
+    LogoCell,
+    LoadingIcon
   },
   data () {
     return {

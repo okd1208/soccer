@@ -11,6 +11,7 @@ export default {
       storagePath: null,
       newnewStoragePath: null,
       isEditable: false,
+      loading: false,
       // Player
       PlayersRef: null,
       Players: null,
@@ -235,6 +236,7 @@ export default {
       this.PreviewCell.fotoURL = document.getElementById('image').src
     },
     async fotoUp () {
+      this.loading = true
       this.isEditable = false
       var image
       var files
@@ -252,6 +254,7 @@ export default {
       this.newStoragePath = this.PreviewCell.collection + '/' + this.PreviewCell.name
       this.isFotoUp = true
       this.isEditable = true
+      this.loading = false
     },
     getTeamIcon (teamname, imgid) {
       if (!teamname) {
