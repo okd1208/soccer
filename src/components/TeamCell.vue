@@ -23,7 +23,10 @@ export default {
     return {
     }
   },
-  components: {
+  created () {
+    if (!this.TeamInfo.fotoURL) {
+      this.TeamInfo.fotoURL = require('../assets/default_icon_team.png')
+    }
   },
   methods: {
     setTargetToggle () {
@@ -37,7 +40,7 @@ export default {
 .teamcell {
   width: 20%;
   margin: 16px;
-  background-color: rgba(11, 19, 58, 0.918);
+  background-color: rgba(32, 41, 78, 0.918);
   color: aliceblue;
 }
 
@@ -47,7 +50,7 @@ export default {
 
 .teamcell:hover {
   cursor: pointer;
-  background-color: rgba(46, 56, 105, 0.918);
+  background-color: rgba(70, 85, 161, 0.918);
   transition:all 0.5s;
 }
 </style>

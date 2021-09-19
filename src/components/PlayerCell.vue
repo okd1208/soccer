@@ -92,6 +92,9 @@ export default {
     }
   },
   created () {
+    if (!this.PlayerInfo.fotoURL) {
+      this.PlayerInfo.fotoURL = require('../assets/default_icon_player.png')
+    }
     if (this.PlayerInfo.preview) {
       return
     }
@@ -122,6 +125,7 @@ export default {
 .PlayerImg {
   width: 160px;
   height: 160px;
+  background-color: rgb(236, 236, 236);
 }
 
 .PlayerProfile {
