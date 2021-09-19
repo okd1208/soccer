@@ -9,6 +9,7 @@ export default {
       nowName: null,
       collection: null,
       storagePath: null,
+      isEditable: false,
       // Player
       PlayersRef: null,
       Players: null,
@@ -205,15 +206,20 @@ export default {
     },
     // nameやkeyの受け渡しと、PlayerCellのプレビュー用
     UpdatePreviewCell () {
-      if (this.PlayerName) {
+      if (this.PreviewCell.collection === 'Players') {
         this.PreviewCell.name = this.PlayerName
         this.PreviewCell.collection = 'Players'
-      } else if (this.TeamName) {
+      } else if (this.PreviewCell.collection === 'Teams') {
         this.PreviewCell.name = this.TeamName
         this.PreviewCell.collection = 'Teams'
-      } else if (this.EventName) {
+      } else if (this.PreviewCell.collection === 'Event') {
         this.PreviewCell.name = this.EventName
         this.PreviewCell.collection = 'Event'
+      }
+      if (this.PreviewCell.name && this.PreviewCell.name !== '') {
+        this.isEditable = true
+      } else {
+        this.isEditable = false
       }
       this.PreviewCell.storagePath = this.storagePath
       this.PreviewCell.birthday = this.birthday
@@ -310,6 +316,7 @@ export default {
       this.isFotoUp = false
       this.nowName = null
       this.storagePath = null
+      this.isEditable = false
       document.getElementById('image').src = null
       this.PreviewCell.name = null
       this.UpdatePreviewCell()
@@ -328,6 +335,13 @@ export default {
     }
   },
   created () {
+    if (this.$route.path.indexOf('PlayerEdit') !== -1) {
+      this.PreviewCell.collection = 'Players'
+    } else if (this.$route.path.indexOf('TeamEdit') !== -1) {
+      this.PreviewCell.collection = 'Teams'
+    } else if (this.$route.path.indexOf('event') !== -1) {
+      this.PreviewCell.collection = 'Event'
+    }
     this.db = firebase.firestore()
     this.PlayersRef = this.db.collection('Player')
     this.PlayersRef.onSnapshot(querySnapshot => {

@@ -35,9 +35,9 @@
         </select>
       </div>
       <span><img id="image" width='100px' @change="UpdatePreviewCell()" src=""></span>
-      <input @change="fotoUp()" id="PlayersInput" type="file" value="upload">
+      <input @change="fotoUp()" v-bind:disabled="!isEditable" id="PlayersInput" type="file" value="upload">
       <div>
-      <button class="simpleBtn" v-if="!isLookon" @click="addPlayersRef(PreviewCell)">新規登録</button>
+      <button class="simpleBtn" v-bind:disabled="!isEditable" v-if="!isLookon" @click="addPlayersRef(PreviewCell)">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdatePlayersRef(PreviewCell)">保存</button>
       <p v-if="errorMessage">{{ errorMessage }}</p>
       </div>

@@ -16,8 +16,8 @@
       </div>
       <p></p>
       <span><img id="image" width='100px' @change="UpdatePreviewCell()" src=""></span>
-      <input @change="fotoUp()" id="TeamsInput" type="file" value="upload">
-      <button class="simpleBtn" v-if="!isLookon" @click="addTeamsRef(PreviewCell)">新規登録</button>
+      <input @change="fotoUp()" v-bind:disabled="!isEditable" id="TeamsInput" type="file" value="upload">
+      <button class="simpleBtn" v-bind:disabled="!isEditable" v-if="!isLookon" @click="addTeamsRef(PreviewCell)">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdateTeamsRef(PreviewCell)">保存</button>
       <button class="DeleteButton" v-if="isLookon" @click="deleteItem(PreviewCell.key, 'Team')">削除</button>
       <p v-if="errorMessage">{{ errorMessage }}</p>

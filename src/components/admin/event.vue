@@ -4,7 +4,7 @@
       <logo-cell @lookonToggle="lookonToggle" v-for="(Event,key) in Event" :key="key" :isLookon="isLookon" :ItemId="key" :TeamInfo="Event"></logo-cell>
     </div>
     <div class="EditField">
-      <h3 v-if="!isLookon">新規チーム追加</h3>
+      <h3 v-if="!isLookon">新規イベント追加</h3>
       <h3 v-if="isLookon">編集</h3>
       <div><label>名前</label><input @change="UpdatePreviewCell()" v-model="EventName" type="text"></div>
         <label><input type="radio" v-model="EventType" value="league">リーグ</label>
@@ -19,8 +19,8 @@
       </div>
       <p></p>
       <span><img id="image" width='100px' @change="UpdatePreviewCell()" src=""></span>
-      <input @change="fotoUp()" id="EventInput" type="file" value="upload">
-      <button class="simpleBtn" v-if="!isLookon" @click="addEventRef()">新規登録</button>
+      <input @change="fotoUp()" v-bind:disabled="!isEditable" id="EventInput" type="file" value="upload">
+      <button v-bind:disabled="!isEditable" class="simpleBtn" v-if="!isLookon" @click="addEventRef()">新規登録</button>
       <button class="simpleBtn" v-if="isLookon" @click="UpdateEventRef(PreviewCell)">保存</button>
       <button class="DeleteButton" v-if="isLookon" @click="deleteItem(PreviewCell.key, 'Event')">削除</button>
       <p v-if="errorMessage">{{ errorMessage }}</p>
