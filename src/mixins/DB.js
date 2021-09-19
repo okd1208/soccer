@@ -12,6 +12,7 @@ export default {
       newnewStoragePath: null,
       isEditable: false,
       loading: false,
+      fotoURL: null,
       // Player
       PlayersRef: null,
       Players: null,
@@ -51,20 +52,30 @@ export default {
     },
     checkForm () {
       this.UpdatePreviewCell()
-      if (this.isEditable) {
-        this.errorMessage = null
-        // 編集画面
-        if (this.nowName) {
-          const storagePathName = this.storagePath.split('/')
-          if (this.isFotoUp) {
+      this.errorMessage = null
+      // 編集画面
+      if (this.nowName) {
+        // this.fotoURL = document.getElementById('image').src
+        if (this.isFotoUp) {
+          if (this.storagePath) {
+            const storagePathName = this.storagePath.split('/')
             this.deleteStorageItem(this.PreviewCell.collection + '/' + storagePathName[1])
-            this.storagePath = this.newStoragePath
           }
+          this.storagePath = this.newStoragePath
+          this.fotoURL = document.getElementById('image').src
+        } else {
+          if (this.storagePath) {
+            this.fotoURL = document.getElementById('image').src
+          }
+        }
+        if (this.nowName !== this.PreviewCell.name && this.PreviewCell.collection === 'Players') {
           // 所属チーム情報変更
-          // }
         }
       } else {
-        this.errorMessage = '※nameを入力して下さい。'
+        if (this.isFotoUp) {
+          this.fotoURL = document.getElementById('image').src
+          this.storagePath = this.newStoragePath
+        }
       }
     },
     UpdateBT () {
@@ -113,8 +124,8 @@ export default {
         birthday: PreviewInfo.birthday,
         position: PreviewInfo.position,
         AbilityScore: PreviewInfo.AbilityScore,
-        fotoURL: document.getElementById('image').src,
-        storagePath: 'Players/' + PreviewInfo.name
+        fotoURL: this.fotoURL,
+        storagePath: this.storagePath
       })
       await this.UpdateBT()
       this.clearFeald()
@@ -138,8 +149,8 @@ export default {
         height: Number(PreviewInfo.height),
         birthday: PreviewInfo.birthday,
         position: PreviewInfo.position,
-        fotoURL: document.getElementById('image').src,
         AbilityScore: PreviewInfo.AbilityScore,
+        fotoURL: this.fotoURL,
         storagePath: this.storagePath
       })
       await this.UpdateBT()
@@ -153,8 +164,8 @@ export default {
       await this.TeamsRef.add({
         TeamName: this.TeamName,
         Menber: this.TeamMenber,
-        fotoURL: document.getElementById('image').src,
-        storagePath: 'Teams/' + this.TeamName
+        fotoURL: this.fotoURL,
+        storagePath: this.storagePath
       })
       this.clearFeald()
       // this.$router.go({path: this.$router.currentRoute.path, force: false})
@@ -167,7 +178,7 @@ export default {
       await this.TeamsRef.doc(this.PreviewCell.key).update({
         TeamName: this.TeamName,
         Menber: this.TeamMenber,
-        fotoURL: document.getElementById('image').src,
+        fotoURL: this.fotoURL,
         storagePath: this.storagePath
       })
       this.clearFeald()
@@ -182,8 +193,8 @@ export default {
         EventName: this.EventName,
         ParticipatingTeam: this.ParticipatingTeam,
         EventType: this.EventType,
-        fotoURL: document.getElementById('image').src,
-        storagePath: 'Event/' + this.EventName
+        fotoURL: this.fotoURL,
+        storagePath: this.storagePath
       })
       this.clearFeald()
       // this.$router.go({path: this.$router.currentRoute.path, force: false})
@@ -320,6 +331,7 @@ export default {
       this.nowName = null
       this.storagePath = null
       this.isEditable = false
+      this.fotoURL = null
       document.getElementById('image').src = null
       this.PreviewCell.name = null
       this.UpdatePreviewCell()
