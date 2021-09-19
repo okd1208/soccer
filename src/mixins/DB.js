@@ -13,6 +13,7 @@ export default {
       isEditable: false,
       loading: false,
       fotoURL: null,
+      editingRef: null,
       // Player
       PlayersRef: null,
       Players: null,
@@ -282,27 +283,18 @@ export default {
         console.log(error)
       })
     },
-    async deleteItem (ItemId, ref) {
-      let name = ''
-      if (ref === 'Players') {
-        name = this.Players[ItemId].name
-        ref = this.PlayersRef
-        this.storagePath = this.Players[ItemId].storagePath
-      } else if (ref === 'Teams') {
-        name = this.Teams[ItemId].TeamName
-        ref = this.TeamsRef
-        this.storagePath = this.Teams[ItemId].storagePath
-      } else if (ref === 'Event') {
-        name = this.Event[ItemId].EventName
-        ref = this.EventRef
-        this.storagePath = this.Event[ItemId].storagePath
+    async getTargetData (key) {
+      const docSnap = await this.editingRef.doc(key).get()
+      if (docSnap.exists) {
+        return docSnap.data()
       }
-      var result = window.confirm(name + 'を削除しますか？')
+    },
+    async deleteItem (ItemId) {
+      const target = await this.getTargetData(ItemId)
+      const result = window.confirm('削除しますか？')
       if (result) {
-        this.deleteStorageItem(this.storagePath)
-        await ref.doc(ItemId).delete()
-      }
-      if (result) {
+        this.deleteStorageItem(target.storagePath)
+        await this.editingRef.doc(ItemId).delete()
         this.$router.go({path: this.$router.currentRoute.path, force: false})
       }
     },
@@ -350,13 +342,6 @@ export default {
     }
   },
   created () {
-    if (this.$route.path.indexOf('PlayerEdit') !== -1) {
-      this.PreviewCell.collection = 'Players'
-    } else if (this.$route.path.indexOf('TeamEdit') !== -1) {
-      this.PreviewCell.collection = 'Teams'
-    } else if (this.$route.path.indexOf('event') !== -1) {
-      this.PreviewCell.collection = 'Event'
-    }
     this.db = firebase.firestore()
     this.PlayersRef = this.db.collection('Player')
     this.PlayersRef.onSnapshot(querySnapshot => {
@@ -384,6 +369,16 @@ export default {
       // var key = Object.keys(obj)
       // console.log(key)
     })
+    if (this.$route.path.indexOf('PlayerEdit') !== -1) {
+      this.PreviewCell.collection = 'Players'
+      this.editingRef = this.PlayersRef
+    } else if (this.$route.path.indexOf('TeamEdit') !== -1) {
+      this.PreviewCell.collection = 'Teams'
+      this.editingRef = this.TeamsRef
+    } else if (this.$route.path.indexOf('event') !== -1) {
+      this.PreviewCell.collection = 'Event'
+      this.editingRef = this.EventRef
+    }
     window.addEventListener('beforeunload', (e) => {
       if (this.isFotoUp) {
         this.deleteStorageItem(this.newStoragePath)
