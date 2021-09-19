@@ -384,7 +384,15 @@ export default {
       // var key = Object.keys(obj)
       // console.log(key)
     })
+    window.addEventListener('beforeunload', (e) => {
+      if (this.isFotoUp) {
+        this.deleteStorageItem(this.newStoragePath)
+      }
+    })
   },
-  computed: {
+  beforeDestroy () {
+    if (this.isFotoUp) {
+      this.deleteStorageItem(this.newStoragePath)
+    }
   }
 }
