@@ -68,9 +68,6 @@ export default {
             this.fotoURL = document.getElementById('image').src
           }
         }
-        if (this.nowName !== this.PreviewCell.name && this.PreviewCell.collection === 'Players') {
-          // 所属チーム情報変更
-        }
       } else {
         if (this.isFotoUp) {
           this.fotoURL = document.getElementById('image').src
@@ -78,31 +75,44 @@ export default {
         }
       }
     },
-    UpdateBT () {
-      if (this.nowBT !== this.BelongTeam) {
-        if (this.nowBT !== undefined) {
-          this.TeamsRef.where('TeamName', '==', this.nowBT).get().then(snapShot => {
+    async UpdateBT () {
+      if (this.nowBT !== undefined) {
+        // 編集登録
+        if (this.nowBT !== this.BelongTeam || this.nowName !== this.PlayerName) {
+          // BT変更,もしくはnameの変更
+          await this.TeamsRef.where('TeamName', '==', this.nowBT).get().then(snapShot => {
             snapShot.forEach(doc => {
               this.TeamsRef.doc(doc.id).update({
-                Menber: firebase.firestore.FieldValue.arrayRemove(this.PlayerName)
+                Menber: firebase.firestore.FieldValue.arrayRemove(this.nowName)
               })
             })
           })
         }
+      }
+      if (this.nowBT !== this.BelongTeam) {
         if (!this.BelongTeam) {
           this.clearFeald()
+          return
         }
-        this.TeamsRef.where('TeamName', '==', this.BelongTeam).get().then(snapShot => {
-          snapShot.forEach(async doc => {
-            await this.TeamsRef.doc(doc.id).update({
+        await this.TeamsRef.where('TeamName', '==', this.BelongTeam).get().then(snapShot => {
+          snapShot.forEach(doc => {
+            this.TeamsRef.doc(doc.id).update({
               Menber: firebase.firestore.FieldValue.arrayUnion(this.PlayerName)
             })
             this.$router.go({path: this.$router.currentRoute.path, force: false})
           })
         })
-      } else {
-        this.clearFeald()
+      } else if (this.nowName !== this.PlayerName && this.nowBT) {
+        await this.TeamsRef.where('TeamName', '==', this.BelongTeam).get().then(snapShot => {
+          snapShot.forEach(doc => {
+            this.TeamsRef.doc(doc.id).update({
+              Menber: firebase.firestore.FieldValue.arrayUnion(this.PlayerName)
+            })
+            this.$router.go({path: this.$router.currentRoute.path, force: false})
+          })
+        })
       }
+      this.clearFeald()
     },
     async addPlayersRef (PreviewInfo) {
       this.checkForm()
