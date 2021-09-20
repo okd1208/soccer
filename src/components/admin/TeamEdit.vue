@@ -14,6 +14,13 @@
           <label :for="Player.name">{{ Player.name }}</label>
         </div>
       </div>
+      <h5 v-if="myEvents">参加イベント一覧</h5>
+      <div v-if="myEvents" class="parent-wrap">
+        <div class="myEvent" v-for="event in myEvents" :key="event.name">
+          <img :src="event.fotoURL" width="100%">
+          {{ event.name }}
+        </div>
+      </div>
       <p></p>
       <span><img id="image" width='100px' @change="UpdatePreviewCell()" src=""></span>
       <input @change="fotoUp()" v-bind:disabled="!isEditable" id="TeamsInput" type="file" value="upload">
@@ -38,7 +45,8 @@ export default {
   },
   data () {
     return {
-      isLookon: false
+      isLookon: false,
+      myEvents: null
     }
   },
   methods: {
@@ -49,10 +57,12 @@ export default {
         this.TeamMenber = Team.Menber
         this.nowName = Team.TeamName
         this.storagePath = Team.storagePath
+        this.myEvents = Team.myEvents
         document.getElementById('image').src = Team.fotoURL
         this.UpdatePreviewCell()
       } else {
         this.clearFeald()
+        this.myEvents = null
       }
       this.isLookon = !this.isLookon
     }
@@ -61,4 +71,8 @@ export default {
 </script>
 
 <style scoped>
+.myEvent {
+  width: 100px;
+  margin: 32px;
+}
 </style>

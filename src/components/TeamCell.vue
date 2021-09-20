@@ -21,11 +21,21 @@ export default {
   mixins: [Mixin],
   data: function () {
     return {
+      myEvents: []
     }
   },
   created () {
     if (!this.TeamInfo.fotoURL) {
       this.TeamInfo.fotoURL = require('../assets/default_icon_team.png')
+    }
+    if (this.$route.path.indexOf('TeamEdit') !== -1) {
+      this.EventRef.where('ParticipatingTeam', 'array-contains', this.TeamInfo.TeamName).get().then(snapShot => {
+        snapShot.forEach(doc => {
+          let data = doc.data()
+          this.myEvents.push({name: data.EventName, fotoURL: data.fotoURL})
+        })
+      })
+      this.$set(this.TeamInfo, 'myEvents', this.myEvents)
     }
   },
   methods: {
