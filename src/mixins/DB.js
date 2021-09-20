@@ -7,7 +7,6 @@ export default {
       errorMessage: null,
       isFotoUp: false,
       nowName: null,
-      collection: null,
       storagePath: null,
       newnewStoragePath: null,
       isEditable: false,
@@ -219,13 +218,10 @@ export default {
     UpdatePreviewCell () {
       if (this.PreviewCell.collection === 'Players') {
         this.PreviewCell.name = this.PlayerName
-        this.PreviewCell.collection = 'Players'
       } else if (this.PreviewCell.collection === 'Teams') {
         this.PreviewCell.name = this.TeamName
-        this.PreviewCell.collection = 'Teams'
       } else if (this.PreviewCell.collection === 'Event') {
         this.PreviewCell.name = this.EventName
-        this.PreviewCell.collection = 'Event'
       }
       if (this.PreviewCell.name && this.PreviewCell.name !== '') {
         this.isEditable = true
@@ -268,12 +264,12 @@ export default {
       this.isEditable = true
       this.loading = false
     },
-    getTeamIcon (teamname, imgid) {
-      if (!teamname) {
+    async changeIcon (storagePath, changeImgId) {
+      if (!storagePath) {
         return
       }
-      firebase.storage().ref().child('images/Teams/' + teamname).getDownloadURL().then((url) => {
-        document.getElementById(imgid).src = url
+      await firebase.storage().ref().child('images/' + storagePath).getDownloadURL().then((url) => {
+        document.getElementById(changeImgId).src = url
       })
     },
     async deleteStorageItem (path) {

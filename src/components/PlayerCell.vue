@@ -3,7 +3,7 @@
     <div v-if="!isLookon || targetItem">
       <div class="parent">
         <div class="PlayerCellChild">
-          <img class="TeamIcon" :id="PlayerInfo.name" :src="getTeamIcon(BelongTeam, PlayerInfo.name)">
+          <img class="TeamIcon" :id="PlayerInfo.name" :src="changeIcon(BTstoragePath, PlayerInfo.name)">
           <img class="PlayerImg" :src="PlayerInfo.fotoURL">
         </div>
         <div class="PlayerCellChild profile" v-b-toggle=PlayerName>
@@ -44,6 +44,7 @@ export default {
   data: function () {
     return {
       BelongTeam: '',
+      BTstoragePath: '',
       PlayerName: this.PlayerInfo.name,
       chartData: {
         labels: ['ディフェンス', 'ドリブル', 'アシスト', 'シュート', '体力'],
@@ -101,6 +102,7 @@ export default {
     this.TeamsRef.where('Menber', 'array-contains', this.PlayerInfo.name).get().then(snapShot => {
       snapShot.forEach(doc => {
         this.BelongTeam = doc.data().TeamName
+        this.BTstoragePath = doc.data().storagePath
         this.$set(this.PlayerInfo, 'BelongTeam', this.BelongTeam)
       })
     })
