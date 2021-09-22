@@ -3,13 +3,12 @@
     <div v-if="!isLookon || targetItem">
       <div class="parent">
         <div class="PlayerCellChild">
-          <img class="TeamIcon" :id="PlayerInfo.name" :src="changeIcon(BTstoragePath, PlayerInfo.name)">
+          <img class="TeamIcon" :id="PlayerInfo.name">
           <img class="PlayerImg" :src="PlayerInfo.fotoURL">
         </div>
         <div class="PlayerCellChild profile" v-b-toggle=PlayerName>
           <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
           <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
-          <!-- <b-button class="moreBtn" v-b-toggle=PlayerName>詳細をみる</b-button> -->
         </div>
         <div class="PlayerCellChild"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
       </div>
@@ -104,6 +103,7 @@ export default {
         this.BelongTeam = doc.data().TeamName
         this.BTstoragePath = doc.data().storagePath
         this.$set(this.PlayerInfo, 'BelongTeam', this.BelongTeam)
+        this.changeIcon(this.BTstoragePath, this.PlayerInfo.name)
       })
     })
   }

@@ -20,14 +20,16 @@
 .adminMaincont {
   margin: 32px auto;
   width: 70%;
-  background-color: rgb(214, 214, 214);
+  /* background-color: rgb(214, 214, 214); */
+  padding-bottom: 64px;
 }
 
 .EditField {
-  background-color: rgb(228, 250, 228);
+  background-color: rgb(245, 245, 245);
   width: 80%;
   padding: 32px 0px;
   margin: 62px auto 0;
+  border-radius: 1%;
 }
 
 /* transition name="fade" */
@@ -55,4 +57,56 @@
 
 .width100{
   width: 100%;
+}
+
+.cp_iptxt {
+	position: relative;
+	width: 80%;
+	margin: 40px auto;
+}
+.cp_iptxt input[type='text'], .cp_iptxt input[type='number'], .cp_iptxt select[type='text'], .cp_iptxt select[type='file'] {
+  font: 15px/24px sans-serif;
+  box-sizing: border-box;
+  width: 100%;
+  letter-spacing: 1px;
+  padding-left: 6em;
+}
+.cp_iptxt input[type='text']:focus, .cp_iptxt input[type='number']:focus, .cp_iptxt select[type='text'], .cp_iptxt select[type='file']{
+  outline: none;
+}
+.ef {
+  padding: 4px 0;
+  border: 0;
+  border-bottom: 1px solid #1b2538;
+  background-color: transparent;
+}
+.ef ~ .focus_line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  transition: 0.4s;
+  background-color: #da3c41;
+}
+.ef:focus ~ .focus_line,
+.cp_iptxt.ef ~ .focus_line {
+	width: 100%;
+	transition: 0.4s;
+}
+.ef ~ label {
+	position: absolute;
+	z-index: 0;
+	top: 4px;
+	left: 0;
+	width: 100%;
+	transition: 0.3s;
+	letter-spacing: 0.5px;
+	color: #aaaaaa;
+}
+.ef:focus ~ label, .cp_iptxt.ef ~ label {
+	font-size: 12px;
+	top: -16px;
+	transition: 0.3s;
+	color: #da3c41;
 }

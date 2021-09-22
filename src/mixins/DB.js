@@ -31,7 +31,7 @@ export default {
       position: null,
       BelongTeam: null,
       nowBT: undefined,
-      PreviewCell: {preview: true, AbilityScore: [50, 50, 50, 50, 50]},
+      PreviewCell: {preview: true, AbilityScore: [50, 50, 50, 50, 50], name: null, fotoURL: null, profile: null, birthday: null},
       // Teams
       TeamsRef: null,
       Teams: null,
@@ -50,7 +50,7 @@ export default {
     TotalScore (League, Cup, Cl) {
       return League + Cup + Cl
     },
-    checkForm () {
+    async checkForm () {
       this.UpdatePreviewCell()
       this.errorMessage = null
       // 編集画面
@@ -73,6 +73,24 @@ export default {
           this.fotoURL = document.getElementById('image').src
           this.storagePath = this.newStoragePath
         }
+      }
+
+      if (this.PreviewCell.collection === 'Teams' && this.TeamMenber) {
+        const teamName = this.TeamName
+        this.TeamMenber.forEach(element => {
+          this.TeamsRef.where('Menber', 'array-contains', element).get().then(snapShot => {
+            snapShot.forEach(doc => {
+              if (teamName !== doc.data().TeamName) {
+                this.TeamsRef.doc(doc.id).update({
+                  Menber: firebase.firestore.FieldValue.arrayRemove(element)
+                })
+                alert(element + 'を' + doc.data().TeamName + 'から外しました。')
+              } else {
+                console.log(doc.data().TeamName)
+              }
+            })
+          })
+        })
       }
     },
     async UpdateBT () {
@@ -122,7 +140,7 @@ export default {
       await this.PlayersRef.add({
         name: PreviewInfo.name,
         profile: PreviewInfo.profile,
-        LeagueGC: PreviewInfo.LeagueGC,
+        LeagueGC: Number(PreviewInfo.LeagueGC),
         CupGC: Number(PreviewInfo.CupGC),
         ClGC: Number(PreviewInfo.ClGC),
         LeagueAC: Number(PreviewInfo.LeagueAC),
@@ -181,7 +199,7 @@ export default {
       // this.$router.go({path: this.$router.currentRoute.path, force: false})
     },
     async UpdateTeamsRef () {
-      this.checkForm()
+      await this.checkForm()
       if (this.errorMessage) {
         return
       }
@@ -320,7 +338,7 @@ export default {
       this.position = null
       this.BelongTeam = null
       this.nowBT = undefined
-      this.TeamMenber = null
+      this.TeamMenber = []
       this.TeamName = null
       this.EventName = null
       this.ParticipatingTeam = []
@@ -330,6 +348,7 @@ export default {
       this.storagePath = null
       this.isEditable = false
       this.fotoURL = null
+      this.errorMessage = null
       document.getElementById('image').src = null
       this.PreviewCell.name = null
       this.UpdatePreviewCell()

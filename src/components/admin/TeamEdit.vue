@@ -6,7 +6,7 @@
     <div class="EditField">
       <h3 v-if="!isLookon">新規チーム追加</h3>
       <h3 v-if="isLookon">編集</h3>
-      <div><label class="NewTeamLabel">名前</label><input @change="UpdatePreviewCell()" v-model="TeamName" type="text"></div>
+      <div><input placeholder="チーム名" @change="UpdatePreviewCell()" v-model="TeamName" type="text"></div>
       <div class="MenberContainer">
         <h5>選手を選択</h5>
         <div v-for="Player in Players" :key="Player.name">
