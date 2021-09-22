@@ -75,22 +75,35 @@ export default {
         }
       }
 
-      if (this.PreviewCell.collection === 'Teams' && this.TeamMenber) {
+      if (this.PreviewCell.collection === 'Teams') {
         const teamName = this.TeamName
-        this.TeamMenber.forEach(element => {
-          this.TeamsRef.where('Menber', 'array-contains', element).get().then(snapShot => {
+        const nowName = this.nowName
+        if (this.nowName !== teamName) {
+          this.EventRef.where('ParticipatingTeam', 'array-contains', nowName).get().then(snapShot => {
             snapShot.forEach(doc => {
-              if (teamName !== doc.data().TeamName) {
-                this.TeamsRef.doc(doc.id).update({
-                  Menber: firebase.firestore.FieldValue.arrayRemove(element)
-                })
-                alert(element + 'を' + doc.data().TeamName + 'から外しました。')
-              } else {
-                console.log(doc.data().TeamName)
-              }
+              this.EventRef.doc(doc.id).update({
+                ParticipatingTeam: firebase.firestore.FieldValue.arrayRemove(nowName)
+              })
+              this.EventRef.doc(doc.id).update({
+                ParticipatingTeam: firebase.firestore.FieldValue.arrayUnion(teamName)
+              })
             })
           })
-        })
+        }
+        if (this.TeamMenber) {
+          this.TeamMenber.forEach(element => {
+            this.TeamsRef.where('Menber', 'array-contains', element).get().then(snapShot => {
+              snapShot.forEach(doc => {
+                if (teamName !== doc.data().TeamName) {
+                  this.TeamsRef.doc(doc.id).update({
+                    Menber: firebase.firestore.FieldValue.arrayRemove(element)
+                  })
+                  alert(element + 'を' + doc.data().TeamName + 'から外しました。')
+                }
+              })
+            })
+          })
+        }
       }
     },
     async UpdateBT () {
@@ -301,6 +314,9 @@ export default {
       })
     },
     async deleteStorageItem (path) {
+      if (!path) {
+        return
+      }
       let storagePath = firebase.storage().ref().child('images/' + path)
       await storagePath.delete().then(function () {
       }).catch(function (error) {
@@ -318,6 +334,24 @@ export default {
       const result = window.confirm('削除しますか？')
       if (result) {
         this.deleteStorageItem(target.storagePath)
+        if (this.PreviewCell.collection === 'Players') {
+          await this.TeamsRef.where('Menber', 'array-contains', target.name).get().then(snapShot => {
+            snapShot.forEach(doc => {
+              this.TeamsRef.doc(doc.id).update({
+                Menber: firebase.firestore.FieldValue.arrayRemove(target.name)
+              })
+            })
+          })
+        } else if (this.PreviewCell.collection === 'Teams') {
+          const target = await this.getTargetData(ItemId)
+          await this.EventRef.where('ParticipatingTeam', 'array-contains', target.TeamName).get().then(snapShot => {
+            snapShot.forEach(doc => {
+              this.EventRef.doc(doc.id).update({
+                ParticipatingTeam: firebase.firestore.FieldValue.arrayRemove(target.TeamName)
+              })
+            })
+          })
+        }
         await this.editingRef.doc(ItemId).delete()
         this.$router.go({path: this.$router.currentRoute.path, force: false})
       }
