@@ -6,7 +6,11 @@
     <div class="EditField">
       <h3 v-if="!isLookon">新規イベント追加</h3>
       <h3 v-if="isLookon">編集</h3>
-      <div><label>名前</label><input @change="UpdatePreviewCell()" v-model="EventName" type="text"></div>
+      <div class="cp_iptxt">
+        <input class="ef" type="text" @change="UpdatePreviewCell()" v-model="EventName">
+        <label>イベント名</label>
+        <span class="focus_line"></span>
+      </div>
         <label><input type="radio" v-model="EventType" value="league">リーグ</label>
         <label><input type="radio" v-model="EventType" value="cup">カップ</label>
         <label><input type="radio" v-model="EventType" value="clel">CL.EL</label>

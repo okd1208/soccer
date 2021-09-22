@@ -5,12 +5,12 @@
       <h3 v-if="!isLookon">新規登録</h3>
       <h3 v-if="isLookon">編集</h3>
       <div class="cp_iptxt">
-        <input class="ef" type="text" placeholder="" @change="UpdatePreviewCell()" v-model="PlayerName">
+        <input class="ef" type="text" @change="UpdatePreviewCell()" v-model="PlayerName">
         <label>選手名</label>
         <span class="focus_line"></span>
       </div>
       <div class="cp_iptxt">
-        <input class="ef" type="text" placeholder="" @change="UpdatePreviewCell()" v-model="from">
+        <input class="ef" type="text" @change="UpdatePreviewCell()" v-model="from">
         <label>出身</label>
         <span class="focus_line"></span>
       </div>
@@ -146,9 +146,6 @@ export default {
 </script>
 
 <style scoped>
-.EditField div label {
-  width: 100px;
-}
 .PlayerCell {
   margin: 32px 0 0 64px;
   margin-right: 160px;

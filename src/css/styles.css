@@ -59,6 +59,9 @@
   width: 100%;
 }
 
+.EditField div label {
+  width: 100px;
+}
 .cp_iptxt {
 	position: relative;
 	width: 80%;
