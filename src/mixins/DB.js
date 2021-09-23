@@ -130,7 +130,6 @@ export default {
             this.TeamsRef.doc(doc.id).update({
               Menber: firebase.firestore.FieldValue.arrayUnion(this.PlayerName)
             })
-            this.$router.go({path: this.$router.currentRoute.path, force: false})
           })
         })
       } else if (this.nowName !== this.PlayerName && this.nowBT) {
@@ -139,7 +138,6 @@ export default {
             this.TeamsRef.doc(doc.id).update({
               Menber: firebase.firestore.FieldValue.arrayUnion(this.PlayerName)
             })
-            this.$router.go({path: this.$router.currentRoute.path, force: false})
           })
         })
       }

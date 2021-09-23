@@ -6,13 +6,13 @@
           <img class="TeamIcon" :id="PlayerInfo.name">
           <img class="PlayerImg" :src="PlayerInfo.fotoURL">
         </div>
-        <div class="PlayerCellChild profile" v-b-toggle=PlayerName>
+        <div class="PlayerCellChild profile" v-b-toggle=toggleId>
           <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
           <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
         </div>
         <div class="PlayerCellChild"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
       </div>
-      <b-collapse :id="PlayerName">
+      <b-collapse :id="toggleId">
         <b-card>
           <detail-player-cell :PlayerInfo="PlayerInfo"/>
         </b-card>
@@ -44,7 +44,7 @@ export default {
     return {
       BelongTeam: '',
       BTstoragePath: '',
-      PlayerName: this.PlayerInfo.name,
+      toggleId: null,
       chartData: {
         labels: ['ディフェンス', 'ドリブル', 'アシスト', 'シュート', '体力'],
         datasets: [
@@ -106,6 +106,9 @@ export default {
         this.changeIcon(this.BTstoragePath, this.PlayerInfo.name)
       })
     })
+    if (this.PlayerInfo.name) {
+      this.toggleId = this.PlayerInfo.name.replace(/\s+/g, '')
+    }
   }
 }
 </script>
@@ -128,6 +131,7 @@ export default {
   width: 160px;
   height: 160px;
   background-color: rgb(236, 236, 236);
+  object-fit: cover;
 }
 
 .PlayerProfile {
