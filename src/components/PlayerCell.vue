@@ -12,7 +12,7 @@
         </div>
         <div class="PlayerCellChild"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
       </div>
-      <b-collapse :id="toggleId">
+      <b-collapse class="b-collapse" :id="toggleId">
         <b-card>
           <detail-player-cell :PlayerInfo="PlayerInfo"/>
         </b-card>
@@ -149,5 +149,9 @@ export default {
   margin-top: 120px;
   margin-left: 120px;
   z-index: 1;
+}
+
+.b-collapse > div > div{
+  padding: 0px;
 }
 </style>

@@ -1,7 +1,6 @@
 <template>
   <div class="EventCont">
     <img :src="EventInfo.fotoURL">
-    <!-- <h2>{{ EventInfo.EventName }}</h2> -->
     <div>
      <player-cell v-for="Player in participants" :key="Player.name" :PlayerInfo="Player" class="PlayerCell"></player-cell>
     </div>
@@ -52,7 +51,7 @@ export default {
   margin: 32px 0 0 64px;
 }
 .EventCont {
-  margin-top: 32px;
+  padding: 32px 0;
 }
 .EventCont img {
   width: 200px;
