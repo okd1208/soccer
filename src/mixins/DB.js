@@ -41,6 +41,9 @@ export default {
       // Event
       EventRef: null,
       Event: null,
+      leagueEvent: null,
+      cupEvent: null,
+      clelEvent: null,
       EventName: null,
       EventType: null,
       ParticipatingTeam: []
@@ -419,10 +422,23 @@ export default {
     this.EventRef = this.db.collection('Event')
     this.EventRef.onSnapshot(querySnapshot => {
       const obj = {}
+      const Lobj = {}
+      const Cobj = {}
+      const Eobj = {}
       querySnapshot.forEach(doc => {
         obj[doc.id] = doc.data()
+        if (doc.data().EventType === 'league') {
+          Lobj[doc.id] = doc.data()
+        } else if (doc.data().EventType === 'cup') {
+          Cobj[doc.id] = doc.data()
+        } else if (doc.data().EventType === 'clel') {
+          Eobj[doc.id] = doc.data()
+        }
       })
       this.Event = obj
+      this.leagueEvent = Lobj
+      this.cupEvent = Cobj
+      this.clelEvent = Eobj
       // var key = Object.keys(obj)
       // console.log(key)
     })
