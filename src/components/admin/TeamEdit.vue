@@ -12,7 +12,7 @@
         <span class="focus_line"></span>
       </div>
       <div class="MenberContainer">
-        <h5>選手を選択</h5>
+        <h5>所属選手</h5>
         <div v-for="Player in Players" :key="Player.name">
           <input type="checkbox" :value="Player.name" v-model="TeamMenber">
           <label :for="Player.name">{{ Player.name }}</label>

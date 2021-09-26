@@ -2,7 +2,7 @@
   <div class="EventCont">
     <img :src="EventInfo.fotoURL">
     <div>
-     <player-cell v-for="Player in participants" :key="Player.name" :PlayerInfo="Player" class="PlayerCell"></player-cell>
+     <player-cell v-for="(Player,key) in participants" :key="key" :PlayerInfo="Player" :ItemId="key" class="PlayerCell"></player-cell>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
   mixins: [Mixin],
   data: function () {
     return {
-      participants: []
+      participants: {}
     }
   },
   components: {
@@ -29,13 +29,15 @@ export default {
   methods: {
   },
   created () {
+    const obj = {}
     this.EventInfo.ParticipatingTeam.forEach(element => {
       this.TeamsRef.where('TeamName', '==', element).get().then(snapShot => {
         snapShot.forEach(doc => {
           doc.data().Menber.forEach(e => {
             this.PlayersRef.where('name', '==', e).get().then(snapShot => {
               snapShot.forEach(doc => {
-                this.participants.push(doc.data())
+                obj[doc.id] = doc.data()
+                this.participants = obj
               })
             })
           })

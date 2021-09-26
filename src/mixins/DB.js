@@ -31,7 +31,8 @@ export default {
       position: null,
       BelongTeam: null,
       nowBT: undefined,
-      PreviewCell: {preview: true, AbilityScore: [50, 50, 50, 50, 50], name: null, fotoURL: null, profile: null, birthday: null},
+      AbilityScores: [],
+      PreviewCell: {preview: true, AbilityScore: [50, 50, 50, 50, 50, 0], name: null, fotoURL: null, profile: null, birthday: null},
       // Teams
       TeamsRef: null,
       Teams: null,
@@ -191,7 +192,6 @@ export default {
         height: Number(PreviewInfo.height),
         birthday: PreviewInfo.birthday,
         position: PreviewInfo.position,
-        AbilityScore: PreviewInfo.AbilityScore,
         fotoURL: this.fotoURL,
         storagePath: this.storagePath
       })

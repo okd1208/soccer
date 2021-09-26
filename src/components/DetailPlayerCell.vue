@@ -41,7 +41,12 @@
       </div>
     </div>
     <div class="evaluationForm">
-      <h5>評価送信</h5>
+      <p>評価送信 <input type="submit" value="送信" @click="addAbilityScores()"></p>
+      <div class="cp_iptxt" v-for="n in 5" :key="n">
+        <input min="0" max="100" class="ef" v-model="AbilityScores[n-1]" type="number">
+        <label>{{ labels[n - 1] }}</label>
+        <span class="focus_line"></span>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +59,31 @@ export default ({
     'PlayerInfo': {
       type: Object,
       default: ''
+    },
+    labels: Array
+  },
+  data: function () {
+    return {
+    }
+  },
+  methods: {
+    async addAbilityScores () {
+      const numAddCount = this.PlayerInfo.addCount + 1
+      var arr = []
+      for (let i = 0; i < 5; i++) {
+        if (this.AbilityScores[i] !== undefined) {
+          var score = parseInt(this.AbilityScores[i], 10)
+          var sum = this.PlayerInfo.AbilityScore[i] * this.PlayerInfo.addCount + score
+          arr[i] = parseInt(sum / numAddCount, 10)
+        } else {
+          arr[i] = this.PlayerInfo.AbilityScore[i]
+        }
+      }
+      arr[5] = numAddCount
+      await this.PlayersRef.doc(this.PlayerInfo.key).update({
+        AbilityScore: arr
+      })
+      this.$router.go({path: this.$router.currentRoute.path, force: false})
     }
   }
 })
@@ -69,6 +99,24 @@ export default ({
 .evaluationForm{
   /* margin: -1.25rem; */
   width: 20%;
-  background-color: antiquewhite;
+  background-color: rgba(250, 235, 215, 0.712);
+}
+.evaluationForm p input {
+  font-size: 12px;
+  float: right;
+  /* margin-left: 10px; */
+}
+.evaluationForm p {
+  margin-bottom: 0;
+}
+.cp_iptxt > label {
+  font-size: 10px;
+  text-align: left;
+}
+.cp_iptxt {
+  margin: 0 auto;
+}
+.ef:focus ~ label, .cp_iptxt.ef ~ label {
+  top: 0;
 }
 </style>

@@ -7,14 +7,17 @@
           <img class="PlayerImg" :src="PlayerInfo.fotoURL">
         </div>
         <div class="PlayerCellChild profile" v-b-toggle=toggleId>
-          <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
-          <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
+          <div>
+            <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
+            <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
+          </div>
+          <p>{{ PlayerInfo.position }}</p>
         </div>
-        <div class="PlayerCellChild"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
+        <div class="PlayerCellChild chart"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
       </div>
       <b-collapse class="b-collapse" :id="toggleId">
         <b-card>
-          <detail-player-cell :PlayerInfo="PlayerInfo"/>
+          <detail-player-cell :PlayerInfo="PlayerInfo" :labels="chartData.labels"/>
         </b-card>
       </b-collapse>
       <div v-if="IsEdit">
@@ -46,7 +49,7 @@ export default {
       BTstoragePath: '',
       toggleId: null,
       chartData: {
-        labels: ['ディフェンス', 'ドリブル', 'アシスト', 'シュート', '体力'],
+        labels: ['ディフェンス', '体力', 'アシスト', 'シュート', 'ドリブル'],
         datasets: [
           {
             label: '能力値',
@@ -57,7 +60,13 @@ export default {
       },
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scale: {
+          ticks: {
+            suggestedMax: 100,
+            suggestedMin: 0
+          }
+        }
       }
     }
   },
@@ -92,6 +101,9 @@ export default {
     }
   },
   created () {
+    let addCount = this.PlayerInfo.AbilityScore.pop()
+    this.$set(this.PlayerInfo, 'addCount', addCount)
+    this.$set(this.PlayerInfo, 'key', this.ItemId)
     if (!this.PlayerInfo.fotoURL) {
       this.PlayerInfo.fotoURL = require('../assets/default_icon_player.png')
     }
@@ -108,6 +120,17 @@ export default {
     })
     if (this.PlayerInfo.name) {
       this.toggleId = this.PlayerInfo.name.replace(/\s+/g, '')
+    }
+    if (this.PlayerInfo.position === 'FW(フォワード)') {
+      this.chartData.labels = ['オフェンス', 'ドリブル', '体力', 'シュート', 'アシスト']
+    } else if (this.PlayerInfo.position === 'MF(ボランチ)') {
+      this.chartData.labels = ['ディフェンス', 'フィジカル', '体力', 'パス', 'ドリブル']
+    } else if (this.PlayerInfo.position === 'MF(サイドハーフ)') {
+      this.chartData.labels = ['シュート', 'フィジカル', 'ドリブル', 'パス', 'アシスト']
+    } else if (this.PlayerInfo.position === 'MF(トップ下)') {
+      this.chartData.labels = ['テクニック', 'フィジカル', 'ドリブル', 'パス', 'メンタル']
+    } else if (this.PlayerInfo.position === 'DF(センターバック)') {
+      this.chartData.labels = ['戦術', 'フィジカル', 'ドリブル', 'パス', 'キック']
     }
   }
 }
@@ -138,6 +161,10 @@ export default {
   font-size: 12px;
 }
 
+.chart {
+  width: 20%;
+}
+
 .moreBtn {
   float: right;
   margin: 0 16px 16px 0;
@@ -153,5 +180,10 @@ export default {
 
 .b-collapse > div > div{
   padding: 0px;
+}
+
+.profile > div{
+  height: 114px;
+  overflow: hidden;
 }
 </style>
