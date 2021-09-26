@@ -6,7 +6,7 @@
           <img class="TeamIcon" :id="PlayerInfo.name">
           <img class="PlayerImg" :src="PlayerInfo.fotoURL">
         </div>
-        <div class="PlayerCellChild profile" v-b-toggle=toggleId>
+        <div class="PlayerCellChild profile">
           <div>
             <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
             <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
@@ -20,6 +20,7 @@
           <detail-player-cell :PlayerInfo="PlayerInfo" :labels="chartData.labels"/>
         </b-card>
       </b-collapse>
+      <div v-b-toggle=toggleId @click="chageBarText" class="toggleBar">{{ bar }}</div>
       <div v-if="IsEdit">
         <button @click="setTargetToggle(), $emit('lookonToggle', PlayerInfo, ItemId)" class="EditButton"><span v-if="!targetItem">編集</span><span v-if="targetItem">編集をやめる</span></button>
         <button @click="deleteItem(ItemId, 'Players')" class="DeleteButton">削除</button>
@@ -46,6 +47,7 @@ export default {
   data: function () {
     return {
       BelongTeam: '',
+      bar: 'スコアを表示',
       BTstoragePath: '',
       toggleId: null,
       chartData: {
@@ -75,6 +77,13 @@ export default {
     DetailPlayerCell
   },
   methods: {
+    chageBarText () {
+      if (this.bar === 'スコアを表示') {
+        this.bar = '閉じる'
+      } else {
+        this.bar = 'スコアを表示'
+      }
+    },
     getage (birthday) {
       if (!birthday) {
         return 0
@@ -185,5 +194,19 @@ export default {
 .profile > div{
   height: 114px;
   overflow: hidden;
+}
+
+.toggleBar {
+  width: 100%;
+  /* background-color: rgba(199, 198, 197, 0.384); */
+  color: rgb(84, 114, 212);
+  border: 1px solid rgba(84, 114, 212, 0.315);
+  border-top: none;
+  transition: 0.5s;
+}
+.toggleBar:hover{
+  color: white;
+  background-color: rgb(84, 114, 212);
+  transition: 0.5s;
 }
 </style>

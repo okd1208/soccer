@@ -100,6 +100,7 @@ export default ({
   /* margin: -1.25rem; */
   width: 20%;
   background-color: rgba(250, 235, 215, 0.712);
+  padding-bottom: 10px;
 }
 .evaluationForm p input {
   font-size: 12px;
