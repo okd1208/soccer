@@ -1,6 +1,7 @@
 <template>
   <transition name="fade">
     <div v-if="!isLookon || targetItem">
+      <router-link class="routerLink" :to="`Player/${ItemId}`">
       <div class="parent">
         <div class="PlayerCellChild">
           <img class="TeamIcon" :id="PlayerInfo.name">
@@ -15,6 +16,7 @@
         </div>
         <div class="PlayerCellChild chart"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
       </div>
+      </router-link>
       <b-collapse class="b-collapse" :id="toggleId">
         <b-card>
           <detail-player-cell :PlayerInfo="PlayerInfo" :labels="chartData.labels"/>
@@ -50,6 +52,7 @@ export default {
       bar: 'スコアを表示',
       BTstoragePath: '',
       toggleId: null,
+      path: '/Player/' + this.ItemId,
       chartData: {
         labels: ['ディフェンス', '体力', 'アシスト', 'シュート', 'ドリブル'],
         datasets: [
@@ -208,5 +211,12 @@ export default {
   color: white;
   background-color: rgb(84, 114, 212);
   transition: 0.5s;
+}
+
+.routerLink {
+  color: #2c3e50;
+}
+.routerLink:hover {
+  text-decoration: none;
 }
 </style>

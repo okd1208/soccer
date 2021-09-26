@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import TopPage from '@/components/mainPage/TopPage'
 import RankingPage from '@/components/mainPage/RankingPage'
+import DetailPlayer from '@/components/mainPage/DetailPlayer'
 import AdminPage from '@/components/admin/adminPage'
 import AdminTop from '@/components/admin/top'
 import PlayerEdit from '@/components/admin/PlayerEdit'
@@ -18,6 +19,11 @@ let router = new Router({
       path: '/',
       name: 'TopPage',
       component: TopPage
+    },
+    {
+      path: '/Player/:id',
+      name: 'DetailPlayer',
+      component: DetailPlayer
     },
     {
       path: '/RankingPage',

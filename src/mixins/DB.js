@@ -33,6 +33,7 @@ export default {
       nowBT: undefined,
       AbilityScores: [],
       PreviewCell: {preview: true, AbilityScore: [50, 50, 50, 50, 50, 0], name: null, fotoURL: null, profile: null, birthday: null},
+      DetailPlayerInfo: null,
       // Teams
       TeamsRef: null,
       Teams: null,
@@ -408,6 +409,9 @@ export default {
       const obj = {}
       querySnapshot.forEach(doc => {
         obj[doc.id] = doc.data()
+        if (this.$route.params.id === doc.id) {
+          this.DetailPlayerInfo = doc.data()
+        }
       })
       this.Players = obj
     })
