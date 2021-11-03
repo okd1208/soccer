@@ -44,11 +44,11 @@
   background-color: rgb(207, 107, 104);
 }
 
-.MenberContainer div {
+.MemberContainer div {
   display: inline-block;
   margin: 12px 32px;
 }
-.MenberContainer {
+.MemberContainer {
   padding-top: 16px;
   margin: 0 auto;
   width: 80%;

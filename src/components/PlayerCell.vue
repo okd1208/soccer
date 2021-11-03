@@ -122,7 +122,7 @@ export default {
     if (this.PlayerInfo.preview) {
       return
     }
-    this.TeamsRef.where('Menber', 'array-contains', this.PlayerInfo.name).get().then(snapShot => {
+    this.TeamsRef.where('Member', 'array-contains', this.PlayerInfo.name).get().then(snapShot => {
       snapShot.forEach(doc => {
         this.BelongTeam = doc.data().TeamName
         this.BTstoragePath = doc.data().storagePath

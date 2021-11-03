@@ -38,7 +38,7 @@ export default {
       TeamsRef: null,
       Teams: null,
       TeamName: null,
-      TeamMenber: [],
+      TeamMember: [],
       targetItem: false,
       // Event
       EventRef: null,
@@ -95,13 +95,13 @@ export default {
             })
           })
         }
-        if (this.TeamMenber) {
-          this.TeamMenber.forEach(element => {
-            this.TeamsRef.where('Menber', 'array-contains', element).get().then(snapShot => {
+        if (this.TeamMember) {
+          this.TeamMember.forEach(element => {
+            this.TeamsRef.where('Member', 'array-contains', element).get().then(snapShot => {
               snapShot.forEach(doc => {
                 if (teamName !== doc.data().TeamName) {
                   this.TeamsRef.doc(doc.id).update({
-                    Menber: firebase.firestore.FieldValue.arrayRemove(element)
+                    Member: firebase.firestore.FieldValue.arrayRemove(element)
                   })
                   alert(element + 'を' + doc.data().TeamName + 'から外しました。')
                 }
@@ -119,7 +119,7 @@ export default {
           await this.TeamsRef.where('TeamName', '==', this.nowBT).get().then(snapShot => {
             snapShot.forEach(doc => {
               this.TeamsRef.doc(doc.id).update({
-                Menber: firebase.firestore.FieldValue.arrayRemove(this.nowName)
+                Member: firebase.firestore.FieldValue.arrayRemove(this.nowName)
               })
             })
           })
@@ -133,7 +133,7 @@ export default {
         await this.TeamsRef.where('TeamName', '==', this.BelongTeam).get().then(snapShot => {
           snapShot.forEach(doc => {
             this.TeamsRef.doc(doc.id).update({
-              Menber: firebase.firestore.FieldValue.arrayUnion(this.PlayerName)
+              Member: firebase.firestore.FieldValue.arrayUnion(this.PlayerName)
             })
           })
         })
@@ -141,7 +141,7 @@ export default {
         await this.TeamsRef.where('TeamName', '==', this.BelongTeam).get().then(snapShot => {
           snapShot.forEach(doc => {
             this.TeamsRef.doc(doc.id).update({
-              Menber: firebase.firestore.FieldValue.arrayUnion(this.PlayerName)
+              Member: firebase.firestore.FieldValue.arrayUnion(this.PlayerName)
             })
           })
         })
@@ -206,7 +206,7 @@ export default {
       }
       await this.TeamsRef.add({
         TeamName: this.TeamName,
-        Menber: this.TeamMenber,
+        Member: this.TeamMember,
         fotoURL: this.fotoURL,
         storagePath: this.storagePath
       })
@@ -220,7 +220,7 @@ export default {
       }
       await this.TeamsRef.doc(this.PreviewCell.key).update({
         TeamName: this.TeamName,
-        Menber: this.TeamMenber,
+        Member: this.TeamMember,
         fotoURL: this.fotoURL,
         storagePath: this.storagePath
       })
@@ -337,10 +337,10 @@ export default {
       if (result) {
         this.deleteStorageItem(target.storagePath)
         if (this.PreviewCell.collection === 'Players') {
-          await this.TeamsRef.where('Menber', 'array-contains', target.name).get().then(snapShot => {
+          await this.TeamsRef.where('Member', 'array-contains', target.name).get().then(snapShot => {
             snapShot.forEach(doc => {
               this.TeamsRef.doc(doc.id).update({
-                Menber: firebase.firestore.FieldValue.arrayRemove(target.name)
+                Member: firebase.firestore.FieldValue.arrayRemove(target.name)
               })
             })
           })
@@ -374,7 +374,7 @@ export default {
       this.position = null
       this.BelongTeam = null
       this.nowBT = undefined
-      this.TeamMenber = []
+      this.TeamMember = []
       this.TeamName = null
       this.EventName = null
       this.ParticipatingTeam = []

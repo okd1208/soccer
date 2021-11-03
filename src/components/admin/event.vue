@@ -14,7 +14,7 @@
         <label><input type="radio" v-model="EventType" value="league">リーグ</label>
         <label><input type="radio" v-model="EventType" value="cup">カップ</label>
         <label><input type="radio" v-model="EventType" value="clel">CL.EL</label>
-      <div class="MenberContainer">
+      <div class="MemberContainer">
         <h5>参加チーム</h5>
         <div v-for="Team in Teams" :key="Team.TeamName">
           <input type="checkbox" :value="Team.TeamName" v-model="ParticipatingTeam">

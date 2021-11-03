@@ -33,7 +33,7 @@ export default {
     this.EventInfo.ParticipatingTeam.forEach(element => {
       this.TeamsRef.where('TeamName', '==', element).get().then(snapShot => {
         snapShot.forEach(doc => {
-          doc.data().Menber.forEach(e => {
+          doc.data().Member.forEach(e => {
             this.PlayersRef.where('name', '==', e).get().then(snapShot => {
               snapShot.forEach(doc => {
                 obj[doc.id] = doc.data()

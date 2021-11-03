@@ -11,10 +11,10 @@
         <label>チーム名</label>
         <span class="focus_line"></span>
       </div>
-      <div class="MenberContainer">
+      <div class="MemberContainer">
         <h5>所属選手</h5>
         <div v-for="Player in Players" :key="Player.name">
-          <input type="checkbox" :value="Player.name" v-model="TeamMenber">
+          <input type="checkbox" :value="Player.name" v-model="TeamMember">
           <label :for="Player.name">{{ Player.name }}</label>
         </div>
       </div>
@@ -58,7 +58,7 @@ export default {
       if (!this.isLookon) {
         this.PreviewCell.key = key
         this.TeamName = Team.TeamName
-        this.TeamMenber = Team.Menber
+        this.TeamMember = Team.Member
         this.nowName = Team.TeamName
         this.storagePath = Team.storagePath
         this.myEvents = Team.myEvents
