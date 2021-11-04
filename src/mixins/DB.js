@@ -13,6 +13,7 @@ export default {
       loading: false,
       fotoURL: null,
       editingRef: null,
+      isActive: '1',
       // Player
       PlayersRef: null,
       Players: null,
