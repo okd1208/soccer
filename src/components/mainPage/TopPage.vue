@@ -5,8 +5,8 @@
         <div v-if="$store.state.viewNum === 1">
           <h5>リーグ別</h5>
           <ul>
-            <li @click="scrollTargetEvent(event.EventName)" v-for="event in leagueEvent" :key="event.EventName">
-              <img class="LeftAreaImg" :src="event.fotoURL">
+            <li class="LeftAreaEvent" @click="scrollTargetEvent(event.EventName)" v-for="event in leagueEvent" :key="event.EventName">
+              <img :src="event.fotoURL">
               <p>{{ event.EventName }}</p>
             </li>
           </ul>
@@ -14,8 +14,8 @@
         <div v-if="$store.state.viewNum === 2">
           <h5>カップ別</h5>
           <ul>
-            <li @click="scrollTargetEvent(event.EventName)" v-for="event in cupEvent" :key="event.EventName">
-              <img class="LeftAreaImg" :src="event.fotoURL">
+            <li class="LeftAreaEvent" @click="scrollTargetEvent(event.EventName)" v-for="event in cupEvent" :key="event.EventName">
+              <img :src="event.fotoURL">
               <p>{{ event.EventName }}</p>
             </li>
           </ul>
@@ -23,8 +23,8 @@
         <div v-if="$store.state.viewNum === 3">
           <h5>clel別</h5>
           <ul>
-            <li @click="scrollTargetEvent(event.EventName)" v-for="event in clelEvent" :key="event.EventName">
-              <img class="LeftAreaImg" :src="event.fotoURL">
+            <li class="LeftAreaEvent" @click="scrollTargetEvent(event.EventName)" v-for="event in clelEvent" :key="event.EventName">
+              <img :src="event.fotoURL">
               <p>{{ event.EventName }}</p>
             </li>
           </ul>
@@ -91,6 +91,9 @@ export default {
   width: 20%;
   margin: 30px 30px 0px 100px;
 }
+.LeftArea h5 {
+  font-weight: bold;
+}
 .LeftArea > div {
   background-color: rgba(224, 219, 219, 0.452);
   padding: 32px 0;
@@ -102,8 +105,16 @@ export default {
 .LeftArea div ul li{
   margin: 32px;
 }
-.LeftAreaImg {
-  width: 120px;
+.LeftAreaEvent > img {
+  width: 100%;
   text-align: center;
+}
+.LeftAreaEvent > p {
+  margin: 0;
+  background-color: black;
+  color: aliceblue;
+}
+.LeftAreaEvent:hover {
+  cursor: pointer;
 }
 </style>
