@@ -2,28 +2,28 @@
   <div class="parent topPage">
     <div class="LeftArea">
       <div>
-        <div>
+        <div v-if="$store.state.viewNum === 1">
           <h5>リーグ別</h5>
           <ul>
-            <li v-for="event in leagueEvent" :key="event.EventName">
+            <li @click="scrollTargetEvent(event.EventName)" v-for="event in leagueEvent" :key="event.EventName">
               <img class="LeftAreaImg" :src="event.fotoURL">
               <p>{{ event.EventName }}</p>
             </li>
           </ul>
         </div>
-        <div >
+        <div v-if="$store.state.viewNum === 2">
           <h5>カップ別</h5>
           <ul>
-            <li v-for="event in cupEvent" :key="event.EventName">
+            <li @click="scrollTargetEvent(event.EventName)" v-for="event in cupEvent" :key="event.EventName">
               <img class="LeftAreaImg" :src="event.fotoURL">
               <p>{{ event.EventName }}</p>
             </li>
           </ul>
         </div>
-        <div >
+        <div v-if="$store.state.viewNum === 3">
           <h5>clel別</h5>
           <ul>
-            <li v-for="event in clelEvent" :key="event.EventName">
+            <li @click="scrollTargetEvent(event.EventName)" v-for="event in clelEvent" :key="event.EventName">
               <img class="LeftAreaImg" :src="event.fotoURL">
               <p>{{ event.EventName }}</p>
             </li>
@@ -56,6 +56,17 @@ export default {
   },
   data () {
     return {
+    }
+  },
+  methods: {
+    scrollTargetEvent (targetId) {
+      const target = document.getElementById(targetId).getBoundingClientRect().top
+      if (target) {
+        window.scrollTo({
+          top: target,
+          behavior: 'smooth'
+        })
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="EventCont">
+  <div class="EventCont" :id="EventInfo.EventName">
     <img :src="EventInfo.fotoURL">
     <div>
      <player-cell v-for="(Player,key) in participants" :key="key" :PlayerInfo="Player" :ItemId="key" class="PlayerCell"></player-cell>
