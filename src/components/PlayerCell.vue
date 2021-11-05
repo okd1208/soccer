@@ -201,15 +201,14 @@ export default {
 
 .toggleBar {
   width: 100%;
-  /* background-color: rgba(199, 198, 197, 0.384); */
-  color: rgb(84, 114, 212);
-  border: 1px solid rgba(84, 114, 212, 0.315);
+  background-color: rgba(196, 196, 196, 0.384);
+  color: rgb(0, 0, 0);
+  /* border: 1px solid rgba(0, 0, 0, 0.315); */
   border-top: none;
   transition: 0.5s;
 }
 .toggleBar:hover{
-  color: white;
-  background-color: rgb(145, 198, 233);
+  background-color: rgb(243, 243, 243);
   transition: 0.5s;
 }
 

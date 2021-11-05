@@ -120,4 +120,7 @@ export default ({
 .ef:focus ~ label, .cp_iptxt.ef ~ label {
   top: 0;
 }
+.table th, .table td {
+    border: 1px solid #dee2e6;
+}
 </style>
