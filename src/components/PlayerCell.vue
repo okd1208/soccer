@@ -9,10 +9,10 @@
         </div>
         <div class="PlayerCellChild profile">
           <div>
-            <h5>{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</h5>
+            <h5><span class="underbar">{{ PlayerInfo.name }} ( {{ getage(PlayerInfo.birthday) }}歳 )</span></h5>
             <p class="PlayerProfile">{{ PlayerInfo.profile }}</p>
           </div>
-          <p>{{ PlayerInfo.position }}</p>
+          <p><span class="underbar">{{ PlayerInfo.position }}</span></p>
         </div>
         <div class="PlayerCellChild chart"><chart :height="160" :chartdata="chartData" :options="chartOptions" /></div>
       </div>
@@ -157,7 +157,7 @@ export default {
 
 .profile{
   flex-grow: 1;
-  background-color: rgb(233, 240, 233);
+  background-color: rgb(245, 245, 245);
   text-align: left;
   padding: 16px 0 0 32px;
 }
@@ -209,7 +209,7 @@ export default {
 }
 .toggleBar:hover{
   color: white;
-  background-color: rgb(84, 114, 212);
+  background-color: rgb(145, 198, 233);
   transition: 0.5s;
 }
 

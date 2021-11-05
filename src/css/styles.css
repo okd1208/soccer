@@ -17,6 +17,10 @@
   justify-content: center;
 }
 
+.underbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.753);
+}
+
 .adminMaincont {
   margin: 32px auto;
   width: 70%;
