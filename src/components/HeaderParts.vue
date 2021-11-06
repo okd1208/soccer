@@ -18,6 +18,9 @@ export default {
   methods: {
     changeView (num) {
       this.$store.state.viewNum = num
+      if (this.$route.path !== '/') {
+        this.$router.push({ path: '/' })
+      }
     }
   }
 }
