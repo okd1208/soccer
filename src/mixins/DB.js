@@ -313,7 +313,9 @@ export default {
         return
       }
       await firebase.storage().ref().child('images/' + storagePath).getDownloadURL().then((url) => {
-        document.getElementById(changeImgId).src = url
+        if (document.getElementById(changeImgId) !== null) {
+          document.getElementById(changeImgId).src = url
+        }
       })
     },
     async deleteStorageItem (path) {

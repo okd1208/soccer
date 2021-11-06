@@ -28,7 +28,7 @@ export default {
         datasets: [
           {
             label: '能力値',
-            data: [65, 70, 40, 68, 80],
+            data: [0, 0, 0, 0, 0],
             backgroundColor: 'rgb(171, 209, 240, 0.6)'
           }
         ]
@@ -57,11 +57,9 @@ export default {
   created () {
   },
   watch: {
-    DetailPlayerInfo: function (newVal, oldVal) {
-      console.log(newVal, oldVal)
+    DetailPlayerInfo: function (newVal) {
       newVal.AbilityScore.pop()
-      this.chartData.datasets.data = newVal.AbilityScore
-      console.log(this.chartData.datasets.data)
+      this.chartData.datasets[0].data = newVal.AbilityScore
       this.isGetData = true
     }
   }
