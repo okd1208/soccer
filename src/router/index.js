@@ -34,7 +34,7 @@ let router = new Router({
       path: '/admin',
       name: 'AdminPage',
       component: AdminPage,
-      // meta: { requiresAuth: true },
+      meta: { requiresAuth: true },
       children: [
         {
           path: '',
@@ -71,9 +71,16 @@ router.beforeEach((to, from, next) => {
   let currentUser = firebase.auth().currentUser
   if (requiresAuth) {
     if (!currentUser) {
-      next({
-        path: '/admin-signin',
-        query: { redirect: to.fullPath }
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          console.log(user.email)
+          next()
+        } else {
+          next({
+            path: '/admin-signin',
+            query: { redirect: to.fullPath }
+          })
+        }
       })
     } else {
       next()
